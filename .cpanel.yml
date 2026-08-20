@@ -1,4 +1,4 @@
 deployment:
   tasks:
-    - export DEPLOYPATH=/home2/equipage/public_html/asvacloud/wp-content/themes/asvacloud
+    - export DEPLOYPATH=/home2/equipage/public_html/ecobloom/wp-content/themes/ecobloom
     - /bin/cp -R * $DEPLOYPATH

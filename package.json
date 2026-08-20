@@ -1,5 +1,5 @@
 {
-  "name": "asvacloud",
+  "name": "ecobloom",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": { 
     "type": "git",
-    "url": "git+https://github.com/anna1801/asvacloud.git"
+    "url": "git+https://github.com/anna1801/ecobloom.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/anna1801/asvacloud/issues"
+    "url": "https://github.com/anna1801/ecobloom/issues"
   },
-  "homepage": "https://github.com/anna1801/asvacloud#readme",
+  "homepage": "https://github.com/anna1801/ecobloom#readme",
   "devDependencies": {
     "esbuild": "^0.25.10",
     "sass": "^1.80.0",
