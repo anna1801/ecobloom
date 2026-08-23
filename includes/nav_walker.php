@@ -1,6 +1,6 @@
 <?php
-
-    class Bootstrap_Navwalker extends Walker_Nav_Menu {
+    // Header menu
+    class Header_Navwalker extends Walker_Nav_Menu {
 
         public function start_lvl(&$output, $depth = 0, $args = null) {
 
@@ -191,6 +191,85 @@
             $indent = str_repeat("\t", $depth);
 
             $output .= "{$indent}</ul>\n";
+        }
+    }
+
+    // Footer menu
+    class Footer_Navwalker extends Walker_Nav_Menu {
+
+        private $items = array();
+
+        public function walk( $elements, $max_depth, ...$args ) {
+
+            $this->items = $elements;
+
+            $top_level_items = array_filter(
+                $elements,
+                function ( $item ) {
+                    return (int) $item->menu_item_parent === 0;
+                }
+            );
+
+            $total = count( $top_level_items );
+
+            $half = (int) ceil( $total / 2 );
+
+            $column_1_items = array_slice( $top_level_items, 0, $half );
+            $column_2_items = array_slice( $top_level_items, $half );
+
+            $output = '<div class="footer-links-grid-template">';
+
+            // First column.
+            $output .= '<ul class="footer-links-col">';
+
+            foreach ( $column_1_items as $item ) {
+                $output .= $this->get_menu_item_output(
+                    $item,
+                    $elements,
+                    $max_depth,
+                    $args
+                );
+            }
+
+            $output .= '</ul>';
+
+            // Second column.
+            $output .= '<ul class="footer-links-col">';
+
+            foreach ( $column_2_items as $item ) {
+                $output .= $this->get_menu_item_output(
+                    $item,
+                    $elements,
+                    $max_depth,
+                    $args
+                );
+            }
+
+            $output .= '</ul>';
+
+            $output .= '</div>';
+
+            return $output;
+        }
+
+        private function get_menu_item_output(
+            $item,
+            $elements,
+            $max_depth,
+            $args
+        ) {
+
+            $output = '';
+
+            $this->start_el(
+                $output,
+                $item,
+                0,
+                $args[0] ?? null,
+                0
+            );
+
+            return $output;
         }
     }
 

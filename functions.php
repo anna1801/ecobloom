@@ -45,9 +45,6 @@ add_action( 'after_setup_theme', 'theme_setup' );
     // css
       wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), _S_VERSION );
       wp_enqueue_style( 'bootstrap-css',get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), '5.3.3' );
-      wp_enqueue_style( 'bootstrap-icons-css',get_template_directory_uri() . '/assets/css/bootstrap-icons.min.css', array(), '1.11.3' );
-      wp_enqueue_style( 'all-css',get_template_directory_uri() . '/assets/css/all.min.css', array(), '6.5.2' );
-      wp_enqueue_style( 'animate-css',get_template_directory_uri() . '/assets/css/animate.min.css', array(), '4.1.1' );
       wp_enqueue_style( 'style-styles', get_template_directory_uri() . '/assets/css/style.min.css', array(), '1.0' );
       wp_enqueue_style( 'custom-styles', get_template_directory_uri() . '/assets/custom/css/custom.css', array(), '1.0' );
       wp_style_add_data( 'theme-style', 'rtl', 'replace' );
