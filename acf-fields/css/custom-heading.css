@@ -1,0 +1,60 @@
+.acf-custom-heading {
+    width: 100%;
+}
+
+.acf-custom-heading-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.acf-custom-heading-toolbar .button {
+    min-width: 34px;
+    height: 32px;
+    padding: 0 10px;
+}
+
+.acf-toolbar-separator {
+    width: 1px;
+    height: 22px;
+    background: #dcdcde;
+    margin: 0 5px;
+}
+
+.acf-custom-heading-editor {
+    min-height: 45px;
+    padding: 12px 14px;
+
+    background: #fff;
+    border: 1px solid #8c8f94;
+    border-radius: 0 0 4px 4px;
+
+    font-size: 18px;
+    line-height: 1.5;
+
+    outline: none;
+    cursor: text;
+
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.acf-custom-heading-editor:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+.acf-custom-heading-editor:empty:before {
+    content: attr(data-placeholder);
+    color: #8c8f94;
+    pointer-events: none;
+}
+
+.acf-custom-heading-editor .text-magenta {
+    color: #d0008b;
+}

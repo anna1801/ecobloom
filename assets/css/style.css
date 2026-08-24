@@ -2507,3 +2507,65 @@ h3,
 header #menu-header-menu .menu-item .nav-link .parent_menu_item {
   padding-right: 0.6rem;
 }
+
+.btn-globe {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 991px) {
+  .globe-card-content .cta-group {
+    justify-content: center;
+  }
+}
+
+.home-bottom-grid {
+  row-gap: 0.5rem;
+}
+
+.switching-grid-section {
+  padding-bottom: 3rem;
+}
+
+.testimonials-box {
+  position: relative;
+}
+.testimonials-box #testimonialDots {
+  bottom: 15px;
+}
+
+.newsletter-content .wpcf7-form .subscribe-form {
+  align-items: flex-start;
+}
+.newsletter-content .wpcf7-form .btn-subscribe {
+  width: auto;
+}
+.newsletter-content .wpcf7-form .subscribe-input {
+  width: 100%;
+}
+.newsletter-content .wpcf7-form .wpcf7-spinner {
+  position: absolute;
+  right: 70px;
+}
+.newsletter-content .wpcf7-form .wpcf7-not-valid-tip {
+  font-size: 12px;
+  padding: 2px 6px;
+  text-align: left;
+}
+.newsletter-content .wpcf7-form .wpcf7-response-output {
+  font-size: 12px;
+  max-width: 380px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  padding: 5px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.newsletter-content .wpcf7-form.invalid .wpcf7-response-output {
+  background-color: #ffecba;
+}
+.newsletter-content .wpcf7-form.sent .wpcf7-response-output {
+  background-color: #bbeabf;
+}

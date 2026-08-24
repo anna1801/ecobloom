@@ -62,4 +62,10 @@ add_action( 'after_setup_theme', 'theme_setup' );
   require get_template_directory() . '/includes/custom.php';
   require get_template_directory() . '/includes/nav_walker.php';
 
+// new ACF field type
+add_action('acf/include_field_types', function () {
+  require_once get_template_directory() . '/acf-fields/class-acf-field-heading.php';
+  new acf_field_custom_heading();
+});
+
 ?>

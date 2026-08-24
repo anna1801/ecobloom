@@ -6,18 +6,18 @@
         <div class="container">
             <div class="row g-4 g-lg-5 align-items-start justify-content-between">
 
-                <?php  if ( have_rows('footer_features', 'option') ) : ?>
+                <?php  if ( have_rows('footer_services', 'option') ) : ?>
                     <div class="col-12 col-lg-4">
                         <div class="row g-3">
                             <?php
-                                while ( have_rows('footer_features', 'option') ) : the_row(); 
+                                while ( have_rows('footer_services', 'option') ) : the_row(); 
                                     $icon = get_sub_field('icon');
                                     $label = get_sub_field('label');
                                     echo '<div class="col-6">';
                                         echo '<div class="footer-trust-item">';
                                             echo '<div class="footer-trust-icon">';
                                                 if($icon) :
-                                                    echo '<i class="fa-solid fa-' . esc_attr($icon) . '"></i>';
+                                                    echo '<i class="' . esc_attr($icon) . '"></i>';
                                                 endif;
                                             echo '</div>';
                                             if($label) :
@@ -52,7 +52,7 @@
                                     $link = get_sub_field('link');
                                     echo '<a href="' . esc_url($link) . '" class="social-icon-btn" target="_blank" aria-label="' . esc_attr($icon) . '">';
                                         if($icon) :
-                                            echo '<i class="fa-brands fa-' . esc_attr($icon) . '"></i>';
+                                            echo '<i class="' . esc_attr($icon) . '"></i>';
                                         endif;
                                     echo '</a>';
                                 endwhile; 
