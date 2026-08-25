@@ -60,7 +60,9 @@ add_action( 'after_setup_theme', 'theme_setup' );
 
 // custom functions
   require get_template_directory() . '/includes/custom.php';
-  require get_template_directory() . '/includes/nav_walker.php';
+  require get_template_directory() . '/includes/nav_walker.php'; 
+  require get_template_directory() . '/includes/section_header.php';
+  require get_template_directory() . '/includes/inner_hero.php';
 
 // new ACF field type
 add_action('acf/include_field_types', function () {

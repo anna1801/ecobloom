@@ -2534,6 +2534,14 @@ header #menu-header-menu .menu-item .nav-link .parent_menu_item {
   bottom: 15px;
 }
 
+.ecobloom-faq-accordion .accordion-body a {
+  color: var(--accent-pink);
+  font-weight: 700;
+}
+.ecobloom-faq-accordion .accordion-body p:last-child {
+  margin-bottom: 0;
+}
+
 .newsletter-content .wpcf7-form .subscribe-form {
   align-items: flex-start;
 }
