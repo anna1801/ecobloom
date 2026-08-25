@@ -2577,3 +2577,13 @@ header #menu-header-menu .menu-item .nav-link .parent_menu_item {
 .newsletter-content .wpcf7-form.sent .wpcf7-response-output {
   background-color: #bbeabf;
 }
+
+.contact-form-box #captchaAnswer {
+  max-width: 150px;
+}
+.contact-form-box .wpcf7-response-output {
+  display: none;
+}
+.contact-form-box .wpcf7-not-valid-tip {
+  font-size: 14px;
+}
