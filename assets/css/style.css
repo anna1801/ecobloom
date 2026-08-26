@@ -2542,6 +2542,31 @@ header #menu-header-menu .menu-item .nav-link .parent_menu_item {
   margin-bottom: 0;
 }
 
+.default-page .body-content h2,
+.default-page .body-content h3 {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity));
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.default-page .body-content h2:not(:first-child),
+.default-page .body-content h3:not(:first-child) {
+  margin-top: 1.5rem;
+}
+.default-page .body-content p,
+.default-page .body-content ul {
+  --bs-text-opacity: 1;
+  color: var(--bs-secondary-color);
+}
+.default-page .body-content p:last-child,
+.default-page .body-content ul:last-child {
+  margin-bottom: 0;
+}
+.default-page .body-content a {
+  color: var(--accent-pink);
+  font-weight: 700;
+}
+
 .newsletter-content .wpcf7-form .subscribe-form {
   align-items: flex-start;
 }

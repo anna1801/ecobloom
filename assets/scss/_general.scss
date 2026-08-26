@@ -45,3 +45,29 @@ header {
         }
     }
 }
+.default-page {
+    .body-content {
+        h2,
+        h3 {
+            --bs-text-opacity: 1;
+            color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity));
+            font-weight: 700;
+            margin-bottom: 1rem;
+            &:not(:first-child) {
+                margin-top: 1.5rem;
+            }
+        }
+        p,
+        ul {
+            --bs-text-opacity: 1;
+            color: var(--bs-secondary-color);
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        a {
+            color: var(--accent-pink);
+            font-weight: 700;
+        }
+    }
+}
