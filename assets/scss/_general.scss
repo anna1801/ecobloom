@@ -71,3 +71,55 @@ header {
         }
     }
 }
+.blog-grid {
+    .blog-content {
+        .blog-meta {
+            flex-flow: wrap;
+            span.dot {
+                background: var(--bs-secondary);
+                height: 6px;
+                width: 6px;
+                border-radius: 100px;
+            }
+            a {
+                color: var(--bs-secondary);
+                text-decoration: none;
+                &:hover {
+                    color: var(--bs-primary);
+                }
+            }
+        }
+    }
+}
+body.single-post {
+    .page-hero-section {
+        .badge {
+            a {
+                color: #be185d;
+                text-decoration: none;
+                &:hover {
+                    color: var(--bs-primary);
+                }
+            }
+        }
+    }
+    .blog-details-content {
+        .blog-post-meta {
+            a {
+                color: var(--bs-secondary);
+                text-decoration: none;
+                &:hover {
+                    color: var(--bs-primary);
+                }
+            }
+        }
+    }
+    .input-group {
+        input.form-control {
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+}
