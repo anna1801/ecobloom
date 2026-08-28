@@ -21,4 +21,5 @@ function remove_p_from_blockquote($content) {
     return $content;
 }
 add_filter('the_content', 'remove_p_from_blockquote');
+
 ?>

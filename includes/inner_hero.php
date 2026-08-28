@@ -38,6 +38,7 @@
                     <li><a href="<?php echo esc_url(home_url('/')); ?>">Home</a></li>
                     <?php
                         $ancestors = get_post_ancestors($id);
+                        
                         if (!empty($ancestors)) :
                             $ancestors = array_reverse($ancestors);
                             foreach ($ancestors as $ancestor) :
@@ -50,6 +51,44 @@
                             </li>
                             <?php
                             endforeach;
+
+                        elseif (is_page_template('template/template-video_library.php')) :
+                            echo '<li>/</li>';
+                            echo '<li>
+                                    <a href="javascript:void(0);">
+                                        Gallery
+                                    </a>
+                                </li>';
+
+                        elseif (is_page_template('template/template-image_gallery.php')) :
+                            echo '<li>/</li>';
+                            echo '<li>
+                                    <a href="javascript:void(0);">
+                                        Gallery
+                                    </a>
+                                </li>';
+                                
+                        elseif(is_singular('image-gallery')) :
+
+                            $pages = get_pages([
+                                'meta_key'   => '_wp_page_template',
+                                'meta_value' => 'template/template-image_gallery.php',
+                            ]);
+                            
+                            if (!empty($pages)) {
+                                $page = $pages[0];
+
+                                $gallery_link = get_permalink($page->ID);
+                            } else {
+                                $gallery_link = 'javascript:void(0);';
+                            }
+
+                            echo '<li>/</li>';
+                            echo '<li>
+                                    <a href="'. esc_url($gallery_link) .'">
+                                        Gallery
+                                    </a>
+                                </li>';
                         endif;
                     ?>
                     <li>/</li>

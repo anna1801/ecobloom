@@ -65,6 +65,7 @@ add_action( 'after_setup_theme', 'theme_setup' );
   require get_template_directory() . '/includes/inner_hero.php';
   require get_template_directory() . '/includes/faq_accordion.php';
   require get_template_directory() . '/includes/blog_grid.php';
+  require get_template_directory() . '/includes/admin.php';
   require get_template_directory() . '/ajax/ajax_blog.php';
 
 // new ACF field type

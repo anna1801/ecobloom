@@ -184,7 +184,7 @@
                                                 $recent_posts->the_post();
 
                                                 if (has_post_thumbnail()) {
-                                                    $image_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
+                                                    $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
                                                 } else {
                                                     $image_url = get_template_directory_uri() . '/assets/images/placeholder.webp';
                                                 }
