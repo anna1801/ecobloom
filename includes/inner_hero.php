@@ -25,10 +25,15 @@
             $page_name = 'Search Results';
             $heading = 'Search Results for: <span class="text-magenta">' . get_search_query() . '</span>';
             $description = '';
-        } else {
+        } elseif ($hero_banner) {
             $page_name = $hero_banner['page_name'];
             $heading = $hero_banner['heading'];
             $description = $hero_banner['description'];
+        }
+        else {
+            $page_name = '';
+            $heading = '';
+            $description = '';
         }
     
         ?>

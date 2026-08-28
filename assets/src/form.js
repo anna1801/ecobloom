@@ -54,6 +54,11 @@ function submitContactForm(e) {
 document.addEventListener('DOMContentLoaded', function () {
 
     const form = document.getElementById('contactForm');
+
+    if (!form) {
+        return;
+    }
+
     const captchaQuestion = document.getElementById('captchaQuestion');
     const captchaAnswer = document.getElementById('captchaAnswer');
     const btn = document.getElementById('contactSubmitBtn');

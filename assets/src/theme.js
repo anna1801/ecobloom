@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Sticky Navbar Scroll Effect
     const navbar = document.querySelector('.ecobloom-navbar');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 40) {
+        if (window.scrollY > 200) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');

@@ -49,7 +49,7 @@ add_action('wp_ajax_ajax_blog_pagination', 'ajax_blog_pagination');
 add_action('wp_ajax_nopriv_ajax_blog_pagination', 'ajax_blog_pagination');
 
 
-function my_theme_scripts() {
+function blog_scripts() {
 
     wp_enqueue_script(
         'blog-ajax',
@@ -65,6 +65,6 @@ function my_theme_scripts() {
 
 }
 
-add_action('wp_enqueue_scripts', 'my_theme_scripts');
+add_action('wp_enqueue_scripts', 'blog_scripts');
 
 ?>

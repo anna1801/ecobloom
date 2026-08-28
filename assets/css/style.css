@@ -2613,6 +2613,60 @@ body.single-post .input-group input.form-control:focus {
     transform: scale(1);
   }
 }
+.dropdown-item.active, .dropdown-item:active {
+  background-color: transparent;
+  color: var(--bs-dropdown-link-color);
+}
+
+.navbar-nav .menu-item:not(.page_item) .nav-link.active, .navbar-nav .menu-item:not(.page_item) .nav-link.show {
+  color: var(--bs-navbar-active-color) !important;
+}
+.navbar-nav .menu-item:not(.page_item) .nav-link.active::after, .navbar-nav .menu-item:not(.page_item) .nav-link.show::after {
+  display: none;
+}
+.navbar-nav .menu-item .dropdown-menu .menu-item.page_item .dropdown-item.active {
+  background-color: #fdf2f8;
+  color: var(--accent-pink);
+}
+
+@media (min-width: 991.99px) {
+  .navbar-sticky-wrapper {
+    height: 88px;
+  }
+}
+@media (max-width: 991.98px) and (min-width: 767.99px) {
+  .navbar-sticky-wrapper {
+    height: 83px;
+  }
+}
+@media (max-width: 767.98px) and (min-width: 575.99px) {
+  .navbar-sticky-wrapper {
+    height: 78px;
+  }
+}
+@media (max-width: 575.98px) {
+  .navbar-sticky-wrapper {
+    height: 73px;
+  }
+}
+.navbar-sticky-wrapper .ecobloom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  transform: translateY(0);
+  transition: padding 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, transform 0.35s ease;
+}
+.navbar-sticky-wrapper .ecobloom-navbar.scrolled {
+  padding-top: 0.6rem !important;
+  padding-bottom: 0.6rem !important;
+}
+
+.bg-magenta {
+  background-color: rgb(214, 51, 132);
+}
+
 .newsletter-content .wpcf7-form .subscribe-form {
   align-items: flex-start;
 }

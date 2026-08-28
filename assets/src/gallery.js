@@ -30,63 +30,72 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Lightbox for gallery items in the inner page
-const lightbox = document.getElementById('lightbox');
-const lbImg = document.getElementById('lbImg');
-const lbCounter = document.getElementById('lbCounter');
-const items = document.querySelectorAll('.masonry-item');
-let currentIdx = 0;
-let zoom = 1;
+document.addEventListener('DOMContentLoaded', function() {
 
-function openLb(idx) {
-    currentIdx = idx;
-    lbImg.src = items[currentIdx].querySelector('img').src;
-    lbImg.style.transform = 'scale(1)';
-    zoom = 1;
-    lbCounter.textContent = (currentIdx + 1) + ' / ' + items.length;
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
+    const lightbox = document.getElementById('lightbox');
 
-function closeLb() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-    lbImg.src = '';
-    zoom = 1;
-    lbImg.style.transform = 'scale(1)';
-}
+    if (!lightbox) {
+        return;
+    }
 
-// Handle item clicks (removing the inline onclick from html)
-items.forEach((item, i) => {
-    // Remove the inline onclick attribute
-    item.removeAttribute('onclick');
-    item.addEventListener('click', () => openLb(i));
-});
+    const lbImg = document.getElementById('lbImg');
+    const lbCounter = document.getElementById('lbCounter');
+    const items = document.querySelectorAll('.masonry-item');
+    let currentIdx = 0;
+    let zoom = 1;
 
-document.getElementById('lbClose').addEventListener('click', closeLb);
-lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+    function openLb(idx) {
+        currentIdx = idx;
+        lbImg.src = items[currentIdx].querySelector('img').src;
+        lbImg.style.transform = 'scale(1)';
+        zoom = 1;
+        lbCounter.textContent = (currentIdx + 1) + ' / ' + items.length;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
 
-document.getElementById('lbPrev').addEventListener('click', e => {
-    e.stopPropagation();
-    currentIdx = (currentIdx - 1 + items.length) % items.length;
-    lbImg.src = items[currentIdx].querySelector('img').src;
-    lbImg.style.transform = 'scale(1)';
-    zoom = 1;
-    lbCounter.textContent = (currentIdx + 1) + ' / ' + items.length;
-});
+    function closeLb() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+        zoom = 1;
+        lbImg.style.transform = 'scale(1)';
+    }
 
-document.getElementById('lbNext').addEventListener('click', e => {
-    e.stopPropagation();
-    currentIdx = (currentIdx + 1) % items.length;
-    lbImg.src = items[currentIdx].querySelector('img').src;
-    lbImg.style.transform = 'scale(1)';
-    zoom = 1;
-    lbCounter.textContent = (currentIdx + 1) + ' / ' + items.length;
-});
+    // Handle item clicks (removing the inline onclick from html)
+    items.forEach((item, i) => {
+        // Remove the inline onclick attribute
+        item.removeAttribute('onclick');
+        item.addEventListener('click', () => openLb(i));
+    });
 
-// Zoom feature
-lbImg.addEventListener('click', e => {
-    e.stopPropagation();
-    zoom = zoom === 1 ? 1.5 : 1;
-    lbImg.style.transform = `scale(${zoom})`;
-    lbImg.style.cursor = zoom === 1 ? 'zoom-in' : 'zoom-out';
+    document.getElementById('lbClose').addEventListener('click', closeLb);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+
+    document.getElementById('lbPrev').addEventListener('click', e => {
+        e.stopPropagation();
+        currentIdx = (currentIdx - 1 + items.length) % items.length;
+        lbImg.src = items[currentIdx].querySelector('img').src;
+        lbImg.style.transform = 'scale(1)';
+        zoom = 1;
+        lbCounter.textContent = (currentIdx + 1) + ' / ' + items.length;
+    });
+
+    document.getElementById('lbNext').addEventListener('click', e => {
+        e.stopPropagation();
+        currentIdx = (currentIdx + 1) % items.length;
+        lbImg.src = items[currentIdx].querySelector('img').src;
+        lbImg.style.transform = 'scale(1)';
+        zoom = 1;
+        lbCounter.textContent = (currentIdx + 1) + ' / ' + items.length;
+    });
+
+    // Zoom feature
+    lbImg.addEventListener('click', e => {
+        e.stopPropagation();
+        zoom = zoom === 1 ? 1.5 : 1;
+        lbImg.style.transform = `scale(${zoom})`;
+        lbImg.style.cursor = zoom === 1 ? 'zoom-in' : 'zoom-out';
+    });
+
 });

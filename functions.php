@@ -59,19 +59,30 @@ add_action( 'after_setup_theme', 'theme_setup' );
   add_filter('wpcf7_autop_or_not', '__return_false');
 
 // custom functions
-  require get_template_directory() . '/includes/custom.php';
+  require get_template_directory() . '/includes/custom.php'; 
+  require get_template_directory() . '/includes/woocommerce.php';
   require get_template_directory() . '/includes/nav_walker.php'; 
   require get_template_directory() . '/includes/section_header.php';
   require get_template_directory() . '/includes/inner_hero.php';
   require get_template_directory() . '/includes/faq_accordion.php';
   require get_template_directory() . '/includes/blog_grid.php';
+  require get_template_directory() . '/includes/product_grid.php';
   require get_template_directory() . '/includes/admin.php';
-  require get_template_directory() . '/ajax/ajax_blog.php';
+  require get_template_directory() . '/ajax/ajax_blog.php'; 
+  require get_template_directory() . '/ajax/ajax_product.php';
 
 // new ACF field type
 add_action('acf/include_field_types', function () {
   require_once get_template_directory() . '/acf-fields/class-acf-field-heading.php';
   new acf_field_custom_heading();
+});
+
+//WooCommerce support to theme
+add_action('after_setup_theme', function () {
+  add_theme_support('woocommerce');
+  // add_theme_support('wc-product-gallery-zoom');
+  // add_theme_support('wc-product-gallery-lightbox');
+  // add_theme_support('wc-product-gallery-slider');
 });
 
 ?>

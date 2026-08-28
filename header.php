@@ -13,7 +13,7 @@
 </head>
 <body <?php body_class(); ?>>
     <header class="navbar-sticky-wrapper" id="top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 border-bottom border-light-subtle">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 border-bottom border-light-subtle ecobloom-navbar">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo esc_url(home_url('/')); ?>">
                     <?php
