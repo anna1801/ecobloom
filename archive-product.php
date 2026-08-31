@@ -3,32 +3,38 @@
 
     <?php inner_hero(); ?>
 
-    <section class="py-4 bg-white border-bottom">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2">
-                <button type="button"
-                    class="btn btn-primary rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm ecobloom-filter-btn active"
-                    data-filter="all">All Products</button>
-               
-                <?php
-                $categories = get_terms([
-                    'taxonomy'   => 'product_cat',
-                    'hide_empty' => true,
-                    'exclude'    => [get_option('default_product_cat')],
-                ]);
+    <div id="to-top"></div>
 
-                foreach ($categories as $category) :
-                ?>
+    <?php if ( is_shop() ) : ?>
+        <section class="py-4 bg-white border-bottom">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 product_category">
                     <button type="button"
-                        class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold fs-7 ecobloom-filter-btn"
-                        data-filter="<?php echo esc_attr($category->slug); ?>">
-                        <?php echo esc_html($category->name); ?>
-                    </button>
-                <?php endforeach; ?>
+                        class="btn btn-primary rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm ecobloom-filter-btn active"
+                        data-filter="all">All Products</button>
+                
+                    <?php
+                    $categories = get_terms([
+                        'taxonomy'   => 'product_cat',
+                        'hide_empty' => true,
+                        'exclude'    => [get_option('default_product_cat')],
+                    ]);
 
+                    foreach ($categories as $category) :
+                    ?>
+                        <button type="button"
+                            class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold fs-7 ecobloom-filter-btn"
+                            data-filter="<?php echo esc_attr($category->slug); ?>">
+                            <?php echo esc_html($category->name); ?>
+                        </button>
+                    <?php endforeach; ?>
+
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
+
+    <?php global $wp_query; ?>
 
     <?php if(have_posts()): ?>
         <section class="py-5 my-3">

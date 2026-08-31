@@ -43,11 +43,11 @@ jQuery(document).ready(function ($) {
                         currentUrl.searchParams.set('paged', page);
                     }
 
-                    window.history.pushState(
-                        { page: page },
-                        '',
-                        currentUrl.toString()
-                    );
+                    // window.history.pushState(
+                    //     { page: page },
+                    //     '',
+                    //     currentUrl.toString()
+                    // );
 
                     if (typeof AOS !== 'undefined') {
                         AOS.refreshHard();

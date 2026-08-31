@@ -3,6 +3,8 @@
 
     <?php inner_hero(); ?>
 
+    <?php global $wp_query; ?>
+
     <?php if(have_posts()): ?>
         <section class="py-5 my-3">
             <div class="container">
