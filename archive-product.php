@@ -34,24 +34,115 @@
         </section>
     <?php endif; ?>
 
-    <?php global $wp_query; ?>
+    <?php
+        $paged = max(
+            1,
+            get_query_var('paged'),
+            get_query_var('page')
+        );
 
-    <?php if(have_posts()): ?>
+        $posts_per_page = get_option('posts_per_page');
+
+        $category = '';
+
+        if (is_product_category()) {
+            $category = get_queried_object()->slug;
+        }
+
+        $args = array(
+            'post_type'      => 'product',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+        );
+
+        if (!empty($category)) {
+
+            $args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'product_cat',
+                    'field'    => 'slug',
+                    'terms'    => $category,
+                ),
+            );
+        }
+
+        $product_query = new WP_Query($args);
+        $archive_products = array();
+
+        if ($product_query->have_posts()) {
+
+            foreach ($product_query->posts as $product_id) {
+
+                $parent_product = wc_get_product($product_id);
+
+                if (!$parent_product) {
+                    continue;
+                }
+
+                if ($parent_product->is_type('variable')) {
+
+                    $variations = $parent_product->get_available_variations();
+
+                    foreach ($variations as $variation_data) {
+
+                        $variation = wc_get_product(
+                            $variation_data['variation_id']
+                        );
+
+                        if (!$variation) {
+                            continue;
+                        }
+
+                        if (!$variation->exists()) {
+                            continue;
+                        }
+
+                        if (!$variation->is_in_stock()) {
+                            continue;
+                        }
+
+                        $archive_products[] = $variation;
+                    }
+
+                } else {
+
+                    $archive_products[] = $parent_product;
+                }
+            }
+        }
+
+        wp_reset_postdata();
+
+        $total_products = count($archive_products);
+
+        $total_pages = ceil(
+            $total_products / $posts_per_page
+        );
+
+        $offset = ($paged - 1) * $posts_per_page;
+
+        $current_products = array_slice(
+            $archive_products,
+            $offset,
+            $posts_per_page
+        );
+    ?>
+
+    <?php if (!empty($current_products)): ?>
         <section class="py-5 my-3">
             <div class="container">
-                <div id="product-results" ?>
-                    <?php 
-                        echo '<div class="row g-4">';
-                            while(have_posts()): the_post();
-                                product_grid(); 
-                            endwhile;
-                        echo '</div>';
-
-                        $current_page = max(1, get_query_var('paged'));
-                        $total_pages   = $wp_query->max_num_pages;
-
-                        product_pagination($current_page, $total_pages);
-                    ?>
+                <div id="product-results">
+                    <div class="row g-4">
+                        <?php
+                            global $product;
+                            foreach ($current_products as $archive_product):
+                                $product = $archive_product;
+                                product_grid();
+                            endforeach;
+                        ?>
+                    </div>
+                    <?php product_pagination( $paged, $total_pages ); ?>
                 </div>
             </div>
         </section>

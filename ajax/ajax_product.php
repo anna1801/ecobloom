@@ -2,7 +2,7 @@
 function ajax_product_pagination() {
 
     $paged = isset($_POST['page'])
-        ? absint($_POST['page'])
+        ? max(1, absint($_POST['page']))
         : 1;
 
     $category = isset($_POST['category'])
@@ -11,12 +11,13 @@ function ajax_product_pagination() {
 
     $args = array(
         'post_type'      => 'product',
-        'posts_per_page' => get_option('posts_per_page'),
-        'paged'          => $paged,
+        'posts_per_page' => -1,
         'post_status'    => 'publish',
+        'fields'         => 'ids',
     );
 
     if (!empty($category) && $category !== 'all') {
+
         $args['tax_query'] = array(
             array(
                 'taxonomy' => 'product_cat',
@@ -28,39 +29,110 @@ function ajax_product_pagination() {
 
     $product_query = new WP_Query($args);
 
-    if ($product_query->have_posts()):
+    $products = array();
+
+    if (!empty($product_query->posts)) {
+
+        foreach ($product_query->posts as $product_id) {
+
+            $product = wc_get_product($product_id);
+
+            if (!$product) {
+                continue;
+            }
+
+            if ($product->is_type('variable')) {
+
+                $variations = $product->get_available_variations();
+
+                foreach ($variations as $variation_data) {
+
+                    $variation = wc_get_product(
+                        $variation_data['variation_id']
+                    );
+
+                    if (!$variation) {
+                        continue;
+                    }
+
+                    if (!$variation->exists()) {
+                        continue;
+                    }
+
+                    $products[] = array(
+                        'type'       => 'variation',
+                        'product_id' => $product_id,
+                        'variation'  => $variation,
+                    );
+                }
+
+            } else {
+
+                $products[] = array(
+                    'type'       => 'product',
+                    'product_id' => $product_id,
+                    'variation'  => $product,
+                );
+
+            }
+        }
+    }
+
+    $per_page = get_option('posts_per_page');
+
+    $total_products = count($products);
+
+    $total_pages = ceil($total_products / $per_page);
+
+    $offset = ($paged - 1) * $per_page;
+
+    $products_for_page = array_slice(
+        $products,
+        $offset,
+        $per_page
+    );
+
+    if (!empty($products_for_page)) {
 
         ob_start();
-        
+
         echo '<div class="row g-4">';
-            while($product_query->have_posts()): $product_query->the_post();
-                product_grid(); 
-            endwhile;
+
+        global $product;
+
+        foreach ($products_for_page as $item) {
+
+            $product = $item['variation'];
+
+            $GLOBALS['current_product_variation'] = $product;
+
+            product_grid();
+        }
+
         echo '</div>';
 
-        $current_page = $paged;
-        $total_pages   = $product_query->max_num_pages;
-
-        product_pagination($current_page, $total_pages);
+        product_pagination(
+            $paged,
+            $total_pages
+        );
 
         wp_reset_postdata();
 
         $html = ob_get_clean();
 
-        wp_send_json_success(array(
-            'html' => $html
-        ));
+        wp_send_json_success(
+            array(
+                'html' => $html,
+            )
+        );
+    }
 
-    else:
-
-        wp_send_json_error();
-
-    endif;
-
+    wp_send_json_error();
 }
 
-add_action('wp_ajax_ajax_product_pagination', 'ajax_product_pagination');
-add_action('wp_ajax_nopriv_ajax_product_pagination', 'ajax_product_pagination');
+add_action( 'wp_ajax_ajax_product_pagination', 'ajax_product_pagination' );
+
+add_action( 'wp_ajax_nopriv_ajax_product_pagination', 'ajax_product_pagination' );
 
 
 function product_scripts() {

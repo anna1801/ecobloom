@@ -10,13 +10,27 @@
             $cat = 'all';
         }
 
+        $product_url = get_variation_product_url($product);
+        $product_name = get_variation_display_name($product);
+
         ?>
         <div class="col-12 col-md-6 col-lg-4 product-item-card" data-category="<?php echo $cat; ?>">
             <div class="card border-0 rounded-4 shadow-sm h-100 overflow-hidden"
                 style="transition: transform 0.3s ease;">
                 <div class="position-relative bg-pink-light p-4 text-center" style="height: 290px; display: flex; align-items: center; justify-content: center;">
                     <?php
-                        $product_badge = get_field('product_badge', $product->ID);
+                        $product_badge = '';
+
+                        if ($product) {
+                            if ($product->is_type('variation')) {
+                                $parent_id = $product->get_parent_id();
+                                $product_badge = get_field('product_badge',$parent_id);
+
+                            } else {
+                                $product_badge = get_field( 'product_badge', $product->get_id() );
+                            }
+                        }
+                        
                         if($product_badge) :
                             if($product_badge["value"] == 'new') {
                                 echo '<span class="badge bg-success text-white position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill">'.$product_badge["label"].'</span>';
@@ -29,15 +43,34 @@
                             }
                         endif;
                     ?>
-                    <a href="<?php the_permalink(); ?>">
+                    <a href="<?php echo $product_url; ?>">
                         <?php 
-                            if (has_post_thumbnail()) {
-                                $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+
+                            if ($product->is_type('variation')) {
+                                $image_id = $product->get_image_id();
+                                if (!$image_id) {
+                                    $parent_product = wc_get_product(
+                                        $product->get_parent_id()
+                                    );
+
+                                    if ($parent_product) {
+                                        $image_id = $parent_product->get_image_id();
+                                    }
+                                }
+                            } else {
+                                $image_id = $product->get_image_id();
+                            }
+
+                            if ($image_id) {
+                                $image_url = wp_get_attachment_image_url(
+                                    $image_id,
+                                    'full'
+                                );
                             } else {
                                 $image_url = get_template_directory_uri() . '/assets/images/placeholder.webp';
                             }
                         ?>
-                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php the_title(); ?>" class="img-fluid" style="max-height: 230px; transition: transform 0.3s ease;">
+                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo $product_name; ?>" class="img-fluid" style="max-height: 230px; transition: transform 0.3s ease;">
                     </a>
                 </div>
                 <div class="card-body p-4 d-flex flex-column justify-content-between">
@@ -73,10 +106,32 @@
                             <!-- to do end-->
                         </div>
                         <h4 class="card-title fw-bold text-dark mb-2">
-                            <a href="<?php the_permalink(); ?>" class="text-dark text-decoration-none"><?php the_title(); ?></a>
+                            <a href="<?php echo $product_url; ?>" class="text-dark text-decoration-none"><?php echo $product_name; ?></a>
                         </h4>
                         <p class="card-text text-muted small mb-3">
-                            <?php echo apply_filters( 'woocommerce_short_description', get_the_excerpt() ); ?>
+                            <?php
+                                $description = '';
+
+                                if ($product->is_type('variation')) {
+                                    $description = $product->get_description();
+
+                                    if (empty(trim(wp_strip_all_tags($description)))) {
+
+                                        $parent_product = wc_get_product(
+                                            $product->get_parent_id()
+                                        );
+
+                                        if ($parent_product) {
+                                            $description = $parent_product->get_short_description();
+                                        }
+                                    }
+
+                                } else {
+                                    $description = $product->get_short_description();
+                                }
+
+                                echo apply_filters( 'woocommerce_short_description',$description );
+                            ?>
                         </p>
                     </div>
                     <div class="d-flex align-items-center justify-content-between pt-2 border-top">
@@ -96,11 +151,11 @@
                         <!-- to do -->
                         <?php 
                             if($product_badge && $product_badge["value"] == 'coming_soon') {
-                                echo '<a href="'. get_the_permalink() .'" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
+                                echo '<a href="'. $product_url .'" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
                                         Notify Me <i class="bi bi-bell ms-1"></i>
                                     </a>';
                             } else {
-                                echo '<a href="'. get_the_permalink() .'" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
+                                echo '<a href="'. $product_url .'" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
                                         View Details <i class="bi bi-arrow-right ms-1"></i>
                                     </a>';
                             }
