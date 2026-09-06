@@ -106,7 +106,7 @@ function ajax_product_pagination() {
 
             $GLOBALS['current_product_variation'] = $product;
 
-            product_grid();
+            product_grid($product);
         }
 
         echo '</div>';

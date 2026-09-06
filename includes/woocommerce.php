@@ -258,7 +258,106 @@ function product_variation_url_script() {
     }
 
 }
-
 add_action('wp_enqueue_scripts','product_variation_url_script');
+
+// add class to body
+add_filter('body_class', function ($classes) {
+    if (is_product()) {
+        $classes[] = 'woocommerce-block-theme-has-button-styles';
+    }
+    return $classes;
+});
+
+// Price style in single product page
+add_filter( 'woocommerce_available_variation', function( $variation_data, $product, $variation ) {
+
+    if ( ! is_product() ) {
+        return $variation_data;
+    }
+
+    $price         = (float) $variation->get_price();
+    $regular_price = (float) $variation->get_regular_price();
+
+    if ( $regular_price > $price ) {
+        $saving = $regular_price - $price;
+        $saving_percent = round( ( $saving / $regular_price ) * 100 );
+
+        $variation_data['price_html'] = sprintf(
+            '<div class="d-flex align-items-center gap-3 mb-4">
+                <span class="fs-2 fw-bold text-dark">%s</span>
+                <span class="text-decoration-line-through text-muted fs-5">%s</span>
+                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold">Save %s%%</span>
+            </div>',
+            eco_price( $price ),
+            eco_price( $regular_price ),
+            $saving_percent
+        );
+    } else {
+        $variation_data['price_html'] = sprintf(
+            '<div class="d-flex align-items-center gap-3 mb-4">
+                <span class="fs-2 fw-bold text-dark">%s</span>
+            </div>',
+            eco_price( $price )
+        );
+    }
+
+    return $variation_data;
+
+}, 10, 3 );
+
+// insert default short description to validate variation description
+add_filter( 'woocommerce_available_variation', function( $variation_data, $product, $variation ) {
+
+	$variation_data['parent_short_description'] = apply_filters(
+		'woocommerce_short_description',
+		$product->get_short_description()
+	);
+
+	return $variation_data;
+
+}, 10, 3 );
+
+// Remove product_meta (category and tag) from single product page
+add_action( 'wp', function() {
+    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+} );
+
+// remove sale flash from the top and added inside product-image.php
+remove_action(
+    'woocommerce_before_single_product_summary',
+    'woocommerce_show_product_sale_flash',
+    10
+);
+
+// allow duplicate comment/review
+add_filter( 'duplicate_comment_id', function( $duplicate_id ) {
+    if ( isset( $_POST['comment_post_ID'] ) ) {
+        $post_id = absint( $_POST['comment_post_ID'] );
+
+        if ( 'product' === get_post_type( $post_id ) ) {
+            return 0;
+        }
+    }
+
+    return $duplicate_id;
+} );
+
+// include attribute term description along with name in product page attribute dropdown
+add_filter( 'woocommerce_variation_option_name', 'custom_variation_option_name', 10, 4 );
+
+function custom_variation_option_name( $option, $term, $attribute, $product ) {
+
+    $attribute_name = wc_attribute_label( $attribute, $product );
+
+    if ( $term instanceof WP_Term && ! empty( $term->description ) ) {
+        $option = $attribute_name . ' ' . $option . ' ' . wp_strip_all_tags( $term->description );
+    } else {
+        $option = $attribute_name . ' ' . $option;
+    }
+
+    return $option;
+}
+
+
 
 ?>

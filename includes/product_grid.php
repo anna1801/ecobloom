@@ -1,9 +1,7 @@
 <?php 
-    function product_grid() {
+    function product_grid($product) {
 
-        global $product;
-
-        $category = get_the_terms( get_the_ID(), 'product_cat' );
+        $category = get_the_terms( $product->id, 'product_cat' );
         if ( $category && ! is_wp_error( $category ) ) {
             $cat = esc_html( $category[0]->slug );
         } else {
@@ -18,31 +16,7 @@
             <div class="card border-0 rounded-4 shadow-sm h-100 overflow-hidden"
                 style="transition: transform 0.3s ease;">
                 <div class="position-relative bg-pink-light p-4 text-center" style="height: 290px; display: flex; align-items: center; justify-content: center;">
-                    <?php
-                        $product_badge = '';
-
-                        if ($product) {
-                            if ($product->is_type('variation')) {
-                                $parent_id = $product->get_parent_id();
-                                $product_badge = get_field('product_badge',$parent_id);
-
-                            } else {
-                                $product_badge = get_field( 'product_badge', $product->get_id() );
-                            }
-                        }
-                        
-                        if($product_badge) :
-                            if($product_badge["value"] == 'new') {
-                                echo '<span class="badge bg-success text-white position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill">'.$product_badge["label"].'</span>';
-                            } elseif($product_badge["value"] == 'coming_soon') {
-                                echo '<span class="badge bg-info text-dark position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill fw-bold">'.$product_badge["label"].'</span>';
-                            } elseif($product_badge["value"] == 'most_opular') {
-                                echo '<span class="badge bg-dark text-white position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill">'.$product_badge["label"].'</span>';
-                            } elseif($product_badge["value"] == 'best_seller') {
-                                echo '<span class="badge bg-magenta text-white position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill">'.$product_badge["label"].'</span>';
-                            }
-                        endif;
-                    ?>
+                    <?php product_badge($product); ?>
                     <a href="<?php echo $product_url; ?>">
                         <?php 
 
@@ -77,33 +51,33 @@
                     <div>
                         <div class="d-flex align-items-center justify-content-between mb-2">
 
-                            <?php
-                                $tags = get_the_terms( get_the_ID(), 'product_tag' );
-                                if ( $tags && ! is_wp_error( $tags ) ) :
-                                    echo '<span class="badge bg-light text-magenta border border-light-subtle rounded-pill px-3 py-1 fs-8 fw-semibold">';
-                                        echo esc_html( implode( ' • ', wp_list_pluck( $tags, 'name' ) ) );
-                                    echo '</span>';
-                                endif;
-                            ?>
-                            <!-- to do -->
-                            <div class="text-warning small">
-                                <?php
-                                $rating = $product->get_average_rating();
-                                $count  = $product->get_review_count();
+                            <?php product_tag($product); ?>
 
-                                for ($i = 1; $i <= 5; $i++) {
-                                    if ($i <= floor($rating)) {
-                                        echo '<i class="bi bi-star-fill"></i>';
-                                    } elseif ($i - $rating < 1) {
-                                        echo '<i class="bi bi-star-half"></i>';
-                                    } else {
-                                        echo '<i class="bi bi-star"></i>';
-                                    }
+                            <?php
+                                $rating_product = $product;
+
+                                if ( $product->is_type( 'variation' ) ) {
+                                    $rating_product = wc_get_product( $product->get_parent_id() );
                                 }
-                                ?>
-                                <span class="text-muted ms-1"> (<?php echo esc_html($count); ?>) </span>
-                            </div>
-                            <!-- to do end-->
+
+                                if ( ! $rating_product ) {
+                                    return;
+                                }
+
+                                $rating_count = $rating_product->get_rating_count();
+                                $review_count = $rating_product->get_review_count();
+                                $average      = $rating_product->get_average_rating();
+                                $average_val = rtrim(rtrim(number_format((float) $average, 2), '0'), '.');
+
+                                if ( $rating_count > 0 ) : ?>
+                                    <div class="text-warning review-sec d-flex align-items-center">
+                                        <?php echo wc_get_rating_html( $average, $rating_count ); ?> 
+                                        <span class="text-muted ms-1">(<?php echo esc_html( $review_count ); ?>)</span>
+                                    </div>
+                                    <?php 
+                                endif; 
+                            ?>
+
                         </div>
                         <h4 class="card-title fw-bold text-dark mb-2">
                             <a href="<?php echo $product_url; ?>" class="text-dark text-decoration-none"><?php echo $product_name; ?></a>
@@ -150,6 +124,18 @@
                         ?>
                         <!-- to do -->
                         <?php 
+                            $product_badge = '';
+
+                            if ($product) {
+                                if ($product->is_type('variation')) {
+                                    $parent_id = $product->get_parent_id();
+                                    $product_badge = get_field('product_badge',$parent_id);
+
+                                } else {
+                                    $product_badge = get_field( 'product_badge', $product->get_id() );
+                                }
+                            }
+
                             if($product_badge && $product_badge["value"] == 'coming_soon') {
                                 echo '<a href="'. $product_url .'" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
                                         Notify Me <i class="bi bi-bell ms-1"></i>

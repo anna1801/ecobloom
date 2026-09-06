@@ -138,7 +138,7 @@
                             global $product;
                             foreach ($current_products as $archive_product):
                                 $product = $archive_product;
-                                product_grid();
+                                product_grid($product);
                             endforeach;
                         ?>
                     </div>

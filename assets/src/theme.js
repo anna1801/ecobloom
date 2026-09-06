@@ -295,10 +295,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 thumbnails.forEach(t => t.classList.remove('active', 'border-magenta'));
                 thumb.classList.add('active', 'border-magenta');
                 const newSrc = thumb.getAttribute('data-img') || thumb.querySelector('img')?.getAttribute('src');
+                const newAlt = thumb.getAttribute('alt') || thumb.querySelector('img')?.getAttribute('alt');
                 if (newSrc) {
                     mainProductImg.style.opacity = '0.3';
                     setTimeout(() => {
                         mainProductImg.src = newSrc;
+                        mainProductImg.alt = newAlt;
                         mainProductImg.style.opacity = '1';
                     }, 150);
                 }
@@ -346,11 +348,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 12. Dynamic Cup Size Dropdown Select
     const cupSizeSelect = document.getElementById('cupSizeSelect');
-    const productTitleEl = document.querySelector('h1.font-serif');
-    if (cupSizeSelect && productTitleEl) {
+    const productTitleEl = document.querySelector('h1.product-title');
+    const breadcrumbTitleEl = document.querySelector('.breadcrumb-title');
+    if (cupSizeSelect && productTitleEl && breadcrumbTitleEl) {
+        const productName = productTitleEl.dataset.productName;
+        const attributeName = productTitleEl.dataset.attributeName;
         cupSizeSelect.addEventListener('change', (e) => {
-            const selectedSize = e.target.value;
-            productTitleEl.textContent = `EcoBloom Soft Cup — Size ${selectedSize}`;
+            //const selectedSize = e.target.value;
+            const selectedName = e.target.options[e.target.selectedIndex].value; // text / val
+            productTitleEl.textContent = `${productName} — ${attributeName} ${selectedName}`;
+            breadcrumbTitleEl.textContent = `${productName} — ${attributeName} ${selectedName}`;
         });
     }
 

@@ -68,6 +68,7 @@ add_action( 'after_setup_theme', 'theme_setup' );
   require get_template_directory() . '/includes/blog_grid.php';
   require get_template_directory() . '/includes/product_grid.php';
   require get_template_directory() . '/includes/admin.php';
+  require get_template_directory() . '/includes/product_info.php';
   require get_template_directory() . '/ajax/ajax_blog.php'; 
   require get_template_directory() . '/ajax/ajax_product.php';
 
