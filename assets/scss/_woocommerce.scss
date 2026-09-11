@@ -18,6 +18,76 @@ body.single-product {
     .breadcrumb-title {
         text-transform: capitalize;
     }
+    form.cart {
+        margin-bottom: 0 !important;
+    }
+    span.onsale {
+        background-color: #178f45;
+        padding: 0.4em 0.8em;
+        top: 28px;
+        left: 0;
+    }
+    .tab-content {
+        .tab-pane {
+            .bi {
+                &::before {
+                    vertical-align: 0;
+                }
+            }
+            .description {
+                h1,
+                h2,
+                h3,
+                h4 {
+                    --bs-text-opacity: 1;
+                    color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
+
+                    &:not(:last-child) {
+                        margin-bottom: 1.5rem;
+                    }
+                }
+                p {
+                    --bs-text-opacity: 1;
+                    color: var(--bs-secondary-color) !important;
+                    line-height: 1.8;
+                }
+            }
+
+            table {
+                tbody {
+                    tr {
+                        &:first-child {
+                            --bs-table-color: #000;
+                            --bs-table-bg: #f8f9fa;
+                            --bs-table-border-color: #c6c7c8;
+                            --bs-table-striped-bg: #ecedee;
+                            --bs-table-striped-color: #000;
+                            --bs-table-active-bg: #dfe0e1;
+                            --bs-table-active-color: #000;
+                            --bs-table-hover-bg: #e5e6e7;
+                            --bs-table-hover-color: #000;
+                            color: var(--bs-table-color);
+                            border-color: var(--bs-table-border-color);
+
+                            td {
+                                padding-top: 1rem;
+                                padding-bottom: 1rem;
+                                background-color: var(--bs-table-bg);
+                            }
+                        }
+                        &:not(:first-child) {
+                            td {
+                                strong,
+                                b {
+                                    font-weight: 600;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .review-sec {

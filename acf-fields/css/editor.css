@@ -1,0 +1,8 @@
+.badge .bi-check-circle-fill {
+    font-style: normal;
+}
+
+.badge .bi-check-circle-fill::before {
+    content: "✔" !important;
+    font-family: inherit !important;
+}

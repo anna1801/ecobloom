@@ -358,6 +358,17 @@ function custom_variation_option_name( $option, $term, $attribute, $product ) {
     return $option;
 }
 
+// remove default tabs and related products from single product
+add_action( 'wp', function() {
+    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
+    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+} );
+
+// Remove default product description from dashboard
+add_action( 'init', function() {
+    remove_post_type_support( 'product', 'editor' );
+} );
 
 
 ?>
