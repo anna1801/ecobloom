@@ -220,7 +220,12 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 <?php else : ?>
 
-	<p class="woocommerce-mini-cart__empty-message"><?php esc_html_e( 'No products in the cart.', 'woocommerce' ); ?></p>
+	<div class="cart-empty-state">
+		<div class="cart-empty-icon"><i class="bi bi-bag-x"></i></div>
+		<h5 class="fw-bold mb-2"> <?php esc_html_e( 'Your Bag is Empty', 'woocommerce' ); ?></h5>
+		<p class="text-muted small mb-4"> <?php esc_html_e( 'Discover reliable comfort for every stage of life.', 'woocommerce' ); ?></p>
+		<a href="<?php echo esc_url( get_post_type_archive_link( 'product' ) ); ?>" class="btn btn-ecobloom-primary btn-sm" data-bs-dismiss="offcanvas">Start Shopping</a>
+	</div>
 
 <?php endif; ?>
 
