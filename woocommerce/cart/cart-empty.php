@@ -30,20 +30,17 @@ if ( wc_get_page_id( 'shop' ) > 0 ) : ?>
                 <div class="col-12 col-lg-9">
                     <div class="about-story-box p-5 bg-white text-dark body-content text-center" style="line-height: 1.8;">
 
-                        <h2 class="wp-block-heading has-text-align-center with-empty-cart-icon wc-block-cart__empty-cart__title">  
-                            <?php esc_html_e('Your basket is currently empty!', 'woocommerce'); ?>
-                        </h2>
-
-                        <p class="text-muted mb-4">
-                            <?php esc_html_e('Add some EcoBloom products to get started.', 'woocommerce'); ?>
-                        </p>
-
                         <?php $shop_url = get_post_type_archive_link( 'product' ); ?>
-                        <a class="btn-globe wc-backward<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" 
+        
+                        <i class="bi bi-bag-x display-4 text-muted mb-3 d-block"></i>
+                        <h5 class="fw-bold text-dark mb-2"><?php esc_html_e('Your cart is empty', 'woocommerce'); ?></h5>
+                        <p class="text-muted mb-4"><?php esc_html_e('Add some EcoBloom products to get started.', 'woocommerce'); ?></p>
+ 
+                        <a class="btn btn-primary rounded-pill px-5 wc-backward<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" 
                         href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', esc_url($shop_url) ) ); ?>">
-                            <?php echo esc_html( apply_filters( 'woocommerce_return_to_shop_text', __( 'Return to shop', 'woocommerce' ) ) ); ?>
+                            <?php echo esc_html( apply_filters( 'woocommerce_return_to_shop_text', __( 'Shop Now', 'woocommerce' ) ) ); ?>
                         </a>
-
+                                         
                     </div>
                 </div>
             </div>
