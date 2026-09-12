@@ -3,7 +3,7 @@
 
     <?php inner_hero(); ?>
 
-    <?php if (is_cart()) : ?>
+    <?php if (is_cart() || is_checkout()) : ?>
         <?php the_content(); ?>
     <?php else : ?>
         <section class="py-5 default-page">

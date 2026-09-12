@@ -370,5 +370,29 @@ add_action( 'init', function() {
     remove_post_type_support( 'product', 'editor' );
 } );
 
+//To update cart count on minicart icon(header)
+// add_action('wp_ajax_get_cart_count', 'get_cart_count');
+// add_action('wp_ajax_nopriv_get_cart_count', 'get_cart_count');
+
+// function get_cart_count() {
+
+//     wp_send_json_success([
+//         'count' => WC()->cart->get_cart_contents_count(),
+//     ]);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ?>

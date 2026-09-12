@@ -123,17 +123,7 @@
         </div>
     </footer>
 
-
-
-
-
-
-
-
-    <!-- to do -->
-
-    <div class="offcanvas offcanvas-end side-cart-offcanvas" tabindex="-1" id="sideCart"
-        aria-labelledby="sideCartLabel">
+    <div class="offcanvas offcanvas-end side-cart-offcanvas" tabindex="-1" id="sideCart" aria-labelledby="sideCartLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title d-flex align-items-center gap-2" id="sideCartLabel">
                 <i class="bi bi-bag-heart-fill text-magenta"></i> Your EcoBloom Bag
@@ -141,46 +131,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
 
-        <div class="offcanvas-body p-0 d-flex flex-column justify-content-between">
-            <!-- Cart Items List Container -->
-            <div class="p-4" id="cartItemsList">
-                <!-- Dynamically filled by JavaScript -->
-            </div>
+        <div class="offcanvas-body p-0 d-flex flex-column justify-content-between widget_shopping_cart_content">
+            
+            <?php woocommerce_mini_cart(); ?>
 
-            <!-- Cart Footer (Subtotal & Checkout) -->
-            <div class="cart-footer-box">
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Subtotal</span>
-                    <span class="fw-bold" id="cartSubtotal">₹1,499</span>
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="text-muted">Shipping</span>
-                    <span class="text-success fw-bold">FREE</span>
-                </div>
-                <hr class="my-2">
-                <div class="d-flex justify-content-between mb-4">
-                    <span class="fs-5 fw-bold text-dark">Total</span>
-                    <span class="fs-5 fw-bold text-magenta" id="cartTotalPrice">₹1,499</span>
-                </div>
-
-                <button class="btn btn-ecobloom-primary w-100 justify-content-center mb-2"
-                    onclick="alert('Proceeding to EcoBloom secure checkout. Thank you for choosing sustainable period care! 🌿');">
-                    <span>Proceed to Checkout</span>
-                    <i class="bi bi-arrow-right"></i>
-                </button>
-                <button class="btn btn-outline-secondary w-100 rounded-pill btn-sm mt-2" data-bs-dismiss="offcanvas">
-                    Continue Shopping
-                </button>
-            </div>
         </div>
     </div>
-
-    <!-- to do end -->
-
-
-
-
-
 
 </body>
 </html>

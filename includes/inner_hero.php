@@ -72,6 +72,24 @@
                                         Gallery
                                     </a>
                                 </li>';
+                        
+                        elseif (is_checkout()) :
+                            $cart_id = url_to_postid( wc_get_cart_url() );
+                            $cart_hero_banner = get_field('hero_banner', $cart_id);
+                            $cart_name = $cart_hero_banner['page_name'];
+
+                            if($cart_name) {
+                                $parent_cart_name = $cart_name;
+                            } else {
+                                $parent_cart_name = 'Shopping Bag';
+                            }
+
+                            echo '<li>/</li>';
+                            echo '<li>
+                                    <a href="'.esc_url( wc_get_cart_url() ).'">
+                                        '.$parent_cart_name.'
+                                    </a>
+                                </li>';
                                 
                         elseif(is_singular('image-gallery')) :
 

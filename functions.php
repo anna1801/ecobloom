@@ -71,7 +71,8 @@ add_action( 'after_setup_theme', 'theme_setup' );
   require get_template_directory() . '/includes/product_info.php';
   require get_template_directory() . '/ajax/ajax_blog.php'; 
   require get_template_directory() . '/ajax/ajax_product.php';
-  require get_template_directory() . '/acf-fields/general.php';
+  require get_template_directory() . '/ajax/ajax_minicart.php';
+  require get_template_directory() . '/acf-fields/general.php'; 
 
 // new ACF field type
 add_action('acf/include_field_types', function () {

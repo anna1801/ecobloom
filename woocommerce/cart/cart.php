@@ -42,7 +42,6 @@ do_action( 'woocommerce_before_cart' ); ?>
                                         <?php do_action( 'woocommerce_before_cart_contents' ); ?>
 
                                         <?php
-                                        $i = 1;
                                         foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
                                             $_product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
                                             $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
@@ -54,7 +53,9 @@ do_action( 'woocommerce_before_cart' ); ?>
                                                 $product_name      = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
                                                 $product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
                                                 ?>
-                                                <tr id="cart-row-<?php echo $i; ?>" class="border-bottom cart-product-row woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+                                                <tr id="cart-row-<?php echo esc_attr( $cart_item_key ); ?>" 
+                                                    class="border-bottom cart-product-row woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>"
+                                                    data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>">
 
                                                     <td role="rowheader" class="py-4 product-name product-thumbnail" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>">
                                                         <div class="d-flex align-items-center gap-3">
@@ -105,7 +106,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 
                                                     <td class="product-quantity py-4" data-title="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>">
                                                         <div class="cart-item-qty bg-light px-2 py-1 rounded-pill border d-inline-flex" style="margin-top:0;">
-                                                            <button class="qty-btn border-0 bg-transparent" type="button" onclick="cartPageQty('cart-row-<?php echo $i; ?>', -1)"><i class="bi bi-dash"></i></button>
+                                                            <button class="qty-btn border-0 bg-transparent" type="button" onclick="cartPageQty(this, -1)"><i class="bi bi-dash"></i></button>
                                                             <?php
                                                             if ( $_product->is_sold_individually() ) {
                                                                 $min_quantity = 1;
@@ -132,6 +133,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                                                                         'qty-display',
                                                                     ),
                                                                     'readonly'     => true,
+                                                                    'input_id'     => 'quantity_' . $cart_item_key,
                                                                 ),
                                                                 $_product,
                                                                 false
@@ -139,11 +141,11 @@ do_action( 'woocommerce_before_cart' ); ?>
 
                                                             echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); // PHPCS: XSS ok.
                                                             ?>
-                                                            <button class="qty-btn border-0 bg-transparent" type="button" onclick="cartPageQty('cart-row-<?php echo $i; ?>', 1)"><i class="bi bi-plus"></i></button>
+                                                            <button class="qty-btn border-0 bg-transparent" type="button" onclick="cartPageQty(this, 1)"><i class="bi bi-plus"></i></button>
                                                         </div>
                                                     </td>
 
-                                                    <td class="product-subtotal py-4 text-end fw-bold text-dark cart-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
+                                                    <td class="product-subtotal py-4 text-end fw-bold text-dark" data-title="<?php esc_attr_e( 'Subtotal', 'woocommerce' ); ?>">
                                                         <?php
                                                             echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.
                                                         ?>
@@ -154,7 +156,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                                                             echo apply_filters( 
                                                                 'woocommerce_cart_item_remove_link',
                                                                 sprintf(
-                                                                    '<a role="button" href="%s" class=" btn btn-link text-danger p-1" aria-label="%s" data-product_id="%s" data-product_sku="%s"><i class="bi bi-trash3"></i></a>',
+                                                                    '<a role="button" href="%s" class="cart-remove-item btn btn-link text-danger p-1" data-cart-item-key="'. esc_attr( $cart_item_key ) .'" aria-label="%s" data-product_id="%s" data-product_sku="%s"><i class="bi bi-trash3"></i></a>',
                                                                     esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
                                                                     esc_attr( sprintf( __( 'Remove %s from cart', 'woocommerce' ), wp_strip_all_tags( $product_name ) ) ),
                                                                     esc_attr( $product_id ),
@@ -167,7 +169,6 @@ do_action( 'woocommerce_before_cart' ); ?>
                                                 </tr>
                                                 <?php
                                             }
-                                            $i++;
                                         }
                                         ?>
                                     </tbody>

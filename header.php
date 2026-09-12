@@ -41,9 +41,12 @@
                         ));
                     ?>
 
-
-                <!-- to do -->
                     <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+
+
+
+
+                        <!-- to do -->
                         <div class="account-dropdown">
                             <a href="#" class="nav-icon-btn" aria-label="My Account">
                                 <i class="bi bi-person"></i>
@@ -56,18 +59,15 @@
                                 <a class="dropdown-item" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
                             </div>
                         </div>
+                        <!-- to do end-->
+                         
 
                         <button class="nav-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideCart"
                             aria-controls="sideCart" aria-label="Open Shopping Bag">
                             <i class="bi bi-bag"></i>
-                            <span class="cart-badge-count">2</span>
+                            <span class="cart-badge-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
                         </button>
                     </div>
-                <!-- to do end-->
-
-
-
-
 
                 </div>
             </div>
