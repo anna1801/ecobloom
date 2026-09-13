@@ -30,16 +30,34 @@ $zone_name     = $shipping_zone->get_zone_name(); // instead of $package_name (i
 	<span class="text-muted"><?php echo wp_kses_post( $zone_name ); ?></span>
 	<span class="text-dark fw-500 shipment-value" data-title="<?php echo esc_attr( $zone_name ); ?>">
 		<?php if ( ! empty( $available_methods ) && is_array( $available_methods ) ) : ?>
-			<ul id="shipping_method" class="woocommerce-shipping-methods">
+			<?php
+				$count = count( $available_methods );
+				if($count == 1) {
+					$count_class = 'single_method';
+				} else {
+					$count_class = 'multiple_method';
+				}
+			?>
+			<ul id="shipping_method" class="woocommerce-shipping-methods <?php echo $count_class; ?>">
 				<?php foreach ( $available_methods as $method ) : ?>
-					<li>
+					<?php 
+						$type = $method->method_id;
+						if($type == 'free_shipping') {
+							$type_class = 'free_shipping';
+							$label_class = 'text-success fw-bold';
+						} else {
+							$type_class = 'flat_rate';
+							$label_class = 'text-mute fw-500';
+						}
+					?>
+					<li class="method_<?php echo $type_class; ?>">
 						<?php
 						if ( 1 < count( $available_methods ) ) {
 							printf( '<input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s />', $index, esc_attr( sanitize_title( $method->id ) ), esc_attr( $method->id ), checked( $method->id, $chosen_method, false ) ); // WPCS: XSS ok.
 						} else {
 							printf( '<input type="hidden" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" />', $index, esc_attr( sanitize_title( $method->id ) ), esc_attr( $method->id ) ); // WPCS: XSS ok.
 						}
-						printf( '<label class="text-success fw-bold" for="shipping_method_%1$s_%2$s">%3$s</label>', $index, esc_attr( sanitize_title( $method->id ) ), wc_cart_totals_shipping_method_label( $method ) ); // WPCS: XSS ok.
+						printf( '<label class="'.$label_class.'" for="shipping_method_%1$s_%2$s">%3$s</label>', $index, esc_attr( sanitize_title( $method->id ) ), wc_cart_totals_shipping_method_label( $method ) ); // WPCS: XSS ok.
 						do_action( 'woocommerce_after_shipping_rate', $method, $index );
 						?>
 					</li>

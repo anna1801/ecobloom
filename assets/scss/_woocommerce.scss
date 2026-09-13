@@ -322,37 +322,68 @@ body.single-product {
 
 .shipping {
     .woocommerce-shipping-methods {
-        .shipping_method {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            background: #fff;
-            cursor: pointer;
-            margin: 0 8px 0 0;
-            vertical-align: middle;
-            position: relative;
-            text-align: left;
+        text-align: left;
 
-            &:checked {
-                background-color: #198754;
-                border-color: #198754;
+        &.multiple_method {
+            .shipping_method {
+                appearance: none;
+                -webkit-appearance: none;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #ccc;
+                border-radius: 4px;
+                background: #fff;
+                cursor: pointer;
+                margin: 0 8px 0 0;
+                vertical-align: middle;
+                position: relative;
+                text-align: left;
 
-                &::after {
-                    content: "";
-                    position: absolute;
-                    width: 5px;
-                    height: 10px;
-                    border: solid #fff;
-                    border-width: 0 2px 2px 0;
-                    left: 5px;
-                    top: 2px;
-                    transform: rotate(45deg);
+                &:checked {
+                    // background-color: #198754;
+                    // border-color: #198754;
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        width: 5px;
+                        height: 10px;
+                        border: solid #fff;
+                        border-width: 0 2px 2px 0;
+                        left: 5px;
+                        top: 2px;
+                        transform: rotate(45deg);
+                    }
                 }
             }
+            li.method_free_shipping {
+                .shipping_method {
+                    &:checked {
+                        background-color: #198754;
+                        border-color: #198754;
+                    }
+                }
+            }
+            li.method_flat_rate {
+                .shipping_method {
+                    &:checked {
+                        background-color: #212529;
+                        border-color: #212529;
+                    }
+                }
+            }
+            & ~ p.woocommerce-shipping-destination {
+                text-align: left;
+            }
         }
+
+        &.single_method {
+            .shipping_method {
+                display: none;
+            }
+            text-align: right;
+        }
+
         &.mini-cart-shipping-methods {
             list-style: none;
             padding: 0;
@@ -361,13 +392,14 @@ body.single-product {
                 display: inline;
             }
         }
-    }
-    .cart-footer-box {
-        .shipment-value {
-            width: 40%;
+        .shipping-method-label {
+            .amount {
+                font-weight: bold;
+            }
         }
     }
-    .woocommerce-shipping-methods {
-        text-align: left;
+
+    .shipment-value {
+        width: 40%;
     }
 }

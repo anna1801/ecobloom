@@ -106,6 +106,10 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 		</div>
 
 		<?php
+		if ( WC()->cart && ! WC()->cart->is_empty() ) {
+			WC()->cart->calculate_shipping();
+		}
+
 		$packages = WC()->shipping()->get_packages();
 
 		if ( ! empty( $packages ) ) :
@@ -132,7 +136,16 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 					<span class="text-dark fw-500 shipment-value" data-title="<?php echo esc_attr( $zone_name ); ?>">
 
-						<ul class="woocommerce-shipping-methods mini-cart-shipping-methods">
+						<?php
+							$count = count( $available_methods );
+							if($count == 1) {
+								$count_class = 'single_method';
+							} else {
+								$count_class = 'multiple_method';
+							}
+						?>
+
+						<ul class="woocommerce-shipping-methods mini-cart-shipping-methods <?php echo $count_class; ?>">
 
 							<?php foreach ( $available_methods as $method ) : ?>
 
@@ -141,9 +154,18 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 								$input_id  = 'shipping_method_' . $index . '_' . sanitize_title( $method_id );
 
 								$is_checked = ( $method_id === $chosen_method );
+
+								$type = $method->method_id;
+								if($type == 'free_shipping') {
+									$type_class = 'free_shipping';
+									$label_class = 'text-success fw-bold';
+								} else {
+									$type_class = 'flat_rate';
+									$label_class = 'text-mute fw-500';
+								}
 								?>
 
-								<li>
+								<li class="method_<?php echo $type_class; ?>">
 
 									<input
 										type="radio"
@@ -157,7 +179,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 									<label
 										for="<?php echo esc_attr( $input_id ); ?>"
-										class="shipping-method-label text-success fw-bold"
+										class="shipping-method-label <?php echo $label_class; ?>"
 									>
 										<?php echo wp_kses_post( wc_cart_totals_shipping_method_label( $method ) ); ?>
 									</label>
@@ -224,7 +246,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 		<div class="cart-empty-icon"><i class="bi bi-bag-x"></i></div>
 		<h5 class="fw-bold mb-2"> <?php esc_html_e( 'Your Bag is Empty', 'woocommerce' ); ?></h5>
 		<p class="text-muted small mb-4"> <?php esc_html_e( 'Discover reliable comfort for every stage of life.', 'woocommerce' ); ?></p>
-		<a href="<?php echo esc_url( get_post_type_archive_link( 'product' ) ); ?>" class="btn btn-ecobloom-primary btn-sm" data-bs-dismiss="offcanvas">Start Shopping</a>
+		<a href="<?php echo esc_url( get_post_type_archive_link( 'product' ) ); ?>" class="btn btn-ecobloom-primary btn-sm"><?php esc_html_e( 'Start Shopping', 'woocommerce' ); ?></a>
 	</div>
 
 <?php endif; ?>

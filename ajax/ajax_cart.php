@@ -1,4 +1,18 @@
 <?php 
+wp_enqueue_script(
+    'main',
+    get_template_directory_uri() . '/ajax/js/ajax_cart.js',
+    array( 'jquery' ),
+    '1.0.0',
+    true
+);
+
+add_action('wp_enqueue_scripts', function() {
+    if ( ! is_cart() ) {
+        wp_enqueue_script('wc-cart');
+    }
+});
+
 // Quantity update
 add_action( 'wp_ajax_update_mini_cart_quantity', 'update_mini_cart_quantity' );
 add_action( 'wp_ajax_nopriv_update_mini_cart_quantity', 'update_mini_cart_quantity' );
