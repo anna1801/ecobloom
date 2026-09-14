@@ -86,7 +86,7 @@ defined( 'ABSPATH' ) || exit;
                     <div class="d-flex justify-content-between align-items-center mb-3 tax-rate tax-rate-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
                         <span class="text-muted"><?php echo esc_html( $tax->label ) . $estimated_text; ?></span>
                         <span class="text-dark fw-500" data-title="<?php echo esc_attr( $tax->label ); ?>">
-                            Included in price
+                            <?php esc_html_e( 'Included in price', 'woocommerce' ); ?>
                         </span>
                     </div>
                     <?php

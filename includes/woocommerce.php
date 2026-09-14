@@ -370,18 +370,58 @@ add_action( 'init', function() {
     remove_post_type_support( 'product', 'editor' );
 } );
 
-//To update cart count on minicart icon(header)
-// add_action('wp_ajax_get_cart_count', 'get_cart_count');
-// add_action('wp_ajax_nopriv_get_cart_count', 'get_cart_count');
+// remove form-row class from checkout fields
+add_filter('woocommerce_form_field', function ($field, $key, $args, $value) {
+    $field = str_replace('form-row ', '', $field);
+    $field = str_replace(' form-row', '', $field);
+    return $field;
+}, 10, 4);
 
-// function get_cart_count() {
+// remove coupon position in checkout
+add_action( 'wp', function() {
+    if ( is_checkout() ) {
+        remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
+    }
+} );
 
-//     wp_send_json_success([
-//         'count' => WC()->cart->get_cart_contents_count(),
-//     ]);
+// run coupon on checkout 
+add_filter( 'woocommerce_checkout_coupon_message', function( $message ) {
+    return $message;
+} );
+
+add_action( 'wp_enqueue_scripts', function() {
+
+    if ( ! is_checkout() ) {
+        return;
+    }
+
+    wp_localize_script(
+        'wc-checkout',
+        'ecobloom_coupon',
+        array(
+            'ajax_url' => WC_AJAX::get_endpoint( 'apply_coupon' ),
+            'nonce'    => wp_create_nonce( 'apply-coupon' ),
+        )
+    );
+
+}, 20 );
+
+
+
+// add_action( 'woocommerce_cart_calculate_fees', 'add_cod_handling_fee' );
+
+// function add_cod_handling_fee( $cart ) {
+
+//     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+//         return;
+//     }
+
+//     $chosen_payment_method = WC()->session->get( 'chosen_payment_method' );
+
+//     if ( 'cod' === $chosen_payment_method ) {
+//         $cart->add_fee( 'Cash on Delivery Fee', 1, false );
+//     }
 // }
-
-
 
 
 

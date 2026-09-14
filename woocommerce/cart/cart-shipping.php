@@ -25,10 +25,20 @@ $show_shipping_calculator = ! empty( $show_shipping_calculator );
 $calculator_text          = '';
 $shipping_zone = WC_Shipping_Zones::get_zone_matching_package( $package );
 $zone_name     = $shipping_zone->get_zone_name(); // instead of $package_name (it was Shipment)
+
+if( is_cart() ) {
+	$parent_class = 'align-items-center mb-3';
+	$label_class = '';
+	$value_class = 'fw-500';
+} elseif( is_checkout() ) {
+	$parent_class = 'mb-2';
+	$label_class = 'small';
+	$value_class = 'fw-bold small';
+}
 ?>
-<div class="d-flex justify-content-between align-items-center mb-3 woocommerce-shipping-totals shipping">
-	<span class="text-muted"><?php echo wp_kses_post( $zone_name ); ?></span>
-	<span class="text-dark fw-500 shipment-value" data-title="<?php echo esc_attr( $zone_name ); ?>">
+<div class="d-flex justify-content-between <?php echo $parent_class; ?> woocommerce-shipping-totals shipping">
+	<span class="text-muted <?php echo $label_class; ?>"><?php echo wp_kses_post( $zone_name ); ?></span>
+	<span class="text-dark <?php echo $value_class; ?> shipment-value" data-title="<?php echo esc_attr( $zone_name ); ?>">
 		<?php if ( ! empty( $available_methods ) && is_array( $available_methods ) ) : ?>
 			<?php
 				$count = count( $available_methods );
