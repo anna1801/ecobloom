@@ -35,8 +35,8 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
 			<div class="d-flex justify-content-between align-items-center mb-3 cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-				<span class="text-muted"><?php wc_cart_totals_coupon_label( $coupon ); ?></span>
-				<span class="fw-bold text-dark" data-title="<?php echo esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ); ?>">
+				<span class="text-success"><?php wc_cart_totals_coupon_label( $coupon ); ?></span>
+				<span class="fw-bold text-success" data-title="<?php echo esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ); ?>">
                     <?php wc_cart_totals_coupon_html( $coupon ); ?>
                 </span>
             </div>

@@ -379,4 +379,174 @@ function update_cart_shipping_method() {
 	);
 }
 
+// Refresh mini-cart
+add_action( 'wp_ajax_refresh_mini_cart', 'refresh_mini_cart' );
+add_action( 'wp_ajax_nopriv_refresh_mini_cart', 'refresh_mini_cart' );
+
+function refresh_mini_cart() {
+
+    if ( ! WC()->cart ) {
+        wp_send_json_error(
+            array(
+                'message' => 'Cart is not available.',
+            )
+        );
+    }
+
+    WC()->cart->calculate_totals();
+    WC()->cart->set_session();
+
+    ob_start();
+
+    woocommerce_mini_cart();
+
+    $mini_cart_html = ob_get_clean();
+
+    $fragments = array(
+        'div.widget_shopping_cart_content' =>
+            '<div class="widget_shopping_cart_content">' .
+            $mini_cart_html .
+            '</div>',
+    );
+
+    wp_send_json_success(
+        array(
+            'fragments' => $fragments,
+            'cart_subtotal' => WC()->cart->get_cart_subtotal(),
+            'cart_total'    => WC()->cart->get_total(),
+            'cart_count'    => WC()->cart->get_cart_contents_count(),
+        )
+    );
+}
+
+// Apply coupon
+add_action( 'wp_ajax_apply_custom_coupon', 'apply_custom_coupon' );
+add_action( 'wp_ajax_nopriv_apply_custom_coupon', 'apply_custom_coupon' );
+
+function apply_custom_coupon() {
+
+    if ( ! WC()->cart ) {
+        wp_send_json_error();
+    }
+
+    wc_clear_notices();
+
+    $coupon_code = isset( $_POST['coupon_code'] )
+        ? wc_format_coupon_code( wp_unslash( $_POST['coupon_code'] ) )
+        : '';
+
+    if ( empty( $coupon_code ) ) {
+
+        wc_add_notice(
+            __( 'Please enter a coupon code.', 'woocommerce' ),
+            'error'
+        );
+
+    } else {
+
+        WC()->cart->apply_coupon( $coupon_code );
+    }
+
+    WC()->cart->calculate_totals();
+    WC()->cart->set_session();
+
+    ob_start();
+
+    wc_print_notices();
+
+    $notices = ob_get_clean();
+
+    ob_start();
+
+    woocommerce_mini_cart();
+
+    $mini_cart_html = ob_get_clean();
+
+    $fragments = array(
+        'div.widget_shopping_cart_content' =>
+            '<div class="widget_shopping_cart_content">' .
+            $mini_cart_html .
+            '</div>',
+    );
+
+    if ( strpos( $notices, 'woocommerce-error' ) !== false ) {
+
+        wp_send_json_error(
+            array(
+                'notices'       => $notices,
+                'fragments'     => $fragments,
+                'cart_subtotal' => WC()->cart->get_cart_subtotal(),
+                'cart_total'    => WC()->cart->get_total(),
+                'cart_count'    => WC()->cart->get_cart_contents_count(),
+            )
+        );
+    }
+
+    wp_send_json_success(
+        array(
+            'notices'       => $notices,
+            'fragments'     => $fragments,
+            'cart_subtotal' => WC()->cart->get_cart_subtotal(),
+            'cart_total'    => WC()->cart->get_total(),
+            'cart_count'    => WC()->cart->get_cart_contents_count(),
+        )
+    );
+}
+
+//Remove coupon
+add_action( 'wp_ajax_remove_custom_coupon', 'remove_custom_coupon' );
+add_action( 'wp_ajax_nopriv_remove_custom_coupon', 'remove_custom_coupon' );
+
+function remove_custom_coupon() {
+
+    if ( ! WC()->cart ) {
+        wp_send_json_error();
+    }
+
+    wc_clear_notices();
+
+    $coupon_code = isset( $_POST['coupon_code'] )
+        ? wc_format_coupon_code( wp_unslash( $_POST['coupon_code'] ) )
+        : '';
+
+    if ( empty( $coupon_code ) ) {
+        wp_send_json_error();
+    }
+
+    WC()->cart->remove_coupon( $coupon_code );
+
+    WC()->cart->calculate_totals();
+    WC()->cart->set_session();
+
+    ob_start();
+
+    wc_print_notices();
+
+    $notices = ob_get_clean();
+
+    ob_start();
+
+    woocommerce_mini_cart();
+
+    $mini_cart_html = ob_get_clean();
+
+    $fragments = array(
+        'div.widget_shopping_cart_content' =>
+            '<div class="widget_shopping_cart_content">' .
+            $mini_cart_html .
+            '</div>',
+    );
+
+    wp_send_json_success(
+        array(
+            'notices'       => $notices,
+            'fragments'     => $fragments,
+            'cart_subtotal' => WC()->cart->get_cart_subtotal(),
+            'cart_total'    => WC()->cart->get_total(),
+            'cart_count'    => WC()->cart->get_cart_contents_count(),
+        )
+    );
+}
+
+
 ?>

@@ -1,5 +1,6 @@
-
+// ==========================================
 // Cart page quantity update
+// ==========================================
 window.cartPageQty = function (button, delta) {
 
     const row = jQuery(button).closest(
@@ -55,7 +56,10 @@ window.cartPageQty = function (button, delta) {
     );
 };
 
+
+// ==========================================
 // MiniCart quantity update
+// ==========================================
 window.miniCartQty = function (rowId, delta) {
 
     const row = document.getElementById(
@@ -116,7 +120,10 @@ window.miniCartQty = function (rowId, delta) {
     );
 };
 
+
+// ==========================================
 // Update actual WooCommerce cart.
+// ==========================================
 function updateWooCartQuantity(cartItemKey, quantity, source) {
 
     if (!cartItemKey) {
@@ -234,7 +241,10 @@ function updateWooCartQuantity(cartItemKey, quantity, source) {
     });
 }
 
+
+// ==========================================
 // Remove cart item
+// ==========================================
 jQuery(function ($) {
 
     $(document).on(
@@ -430,7 +440,10 @@ jQuery(function ($) {
 
 });
 
+
+// ==========================================
 // Update shipping method
+// ==========================================
 jQuery(function ($) {
 
     $(document).on('change', '.shipping_method', function () {
@@ -638,5 +651,298 @@ jQuery(function ($) {
         });
 
     });
+
+});
+
+// ==========================================
+// Refresh mini-cart after payment method changes
+// ==========================================
+jQuery(function ($) {
+
+    $(document.body).on(
+        'change',
+        'input[name="payment_method"]',
+        function () {
+
+            $(document.body).trigger(
+                'update_checkout'
+            );
+
+        }
+    );
+
+    $(document.body).on(
+        'updated_checkout',
+        function () {
+
+            $.ajax({
+
+                type: 'POST',
+
+                url: wc_cart_params.ajax_url,
+
+                dataType: 'json',
+
+                data: {
+                    action: 'refresh_mini_cart'
+                },
+
+                success: function (response) {
+
+                    if (!response.success) {
+                        console.error(
+                            'Mini-cart refresh failed:',
+                            response.data
+                        );
+                        return;
+                    }
+
+                    const data = response.data;
+
+                    $('.cart-subtotal .amount').html(
+                        data.cart_subtotal
+                    );
+
+                    $('.order-total .amount').html(
+                        data.cart_total
+                    );
+
+                    $('.cart-badge-count').text(
+                        data.cart_count
+                    );
+
+                    if (data.fragments) {
+
+                        $.each(
+                            data.fragments,
+                            function (selector, html) {
+
+                                $(selector).replaceWith(
+                                    html
+                                );
+
+                            }
+                        );
+
+                    }
+
+                },
+
+                error: function (xhr) {
+
+                    console.error(
+                        'Mini-cart refresh AJAX error:',
+                        xhr.responseText
+                    );
+
+                }
+
+            });
+
+        }
+    );
+
+});
+
+
+// ==========================================
+//  COUPON
+// ==========================================
+
+jQuery(function ($) {
+
+    function updateMiniCartFromResponse(response) {
+
+        if (
+            response.data &&
+            response.data.fragments
+        ) {
+
+            $.each(
+                response.data.fragments,
+                function (selector, html) {
+
+                    $(selector).replaceWith(html);
+
+                }
+            );
+
+        }
+    }
+
+    function updateWooCommerceNotices(response) {
+
+        const notices =
+            response.data &&
+            response.data.notices
+                ? response.data.notices
+                : '';
+
+        const $wrapper =
+            $('.woocommerce-notices-wrapper').first();
+
+        if (!$wrapper.length) {
+            return;
+        }
+
+        $wrapper.html(notices);
+    }
+
+
+    // ==========================================
+    // APPLY COUPON
+    // ==========================================
+
+    $(document).on(
+        'click',
+        '.coupon button[name="apply_coupon"]',
+        function (e) {
+
+            e.preventDefault();
+
+            const button = $(this);
+            const form = button.closest('.coupon');
+
+            const couponCode = $.trim(
+                form.find('input[name="coupon_code"]').val()
+            );
+
+            if (!couponCode) {
+
+                return;
+            }
+
+            button.prop('disabled', true);
+
+            $.ajax({
+
+                type: 'POST',
+
+                url: wc_cart_params.ajax_url,
+
+                dataType: 'json',
+
+                data: {
+                    action: 'apply_custom_coupon',
+                    coupon_code: couponCode
+                },
+
+                success: function (response) {
+
+                    updateWooCommerceNotices(response);
+
+                    updateMiniCartFromResponse(response);
+
+                    if (!response.success) {
+                        return;
+                    }
+
+                    $(document.body).trigger(
+                        'wc_update_cart'
+                    );
+
+                },
+
+                error: function (xhr) {
+
+                    console.error(
+                        'Coupon AJAX error:',
+                        xhr.responseText
+                    );
+
+                },
+
+                complete: function () {
+
+                    button.prop(
+                        'disabled',
+                        false
+                    );
+
+                }
+
+            });
+
+        }
+    );
+
+
+    // ==========================================
+    // REMOVE COUPON
+    // ==========================================
+
+    $(document).on(
+        'click',
+        '.woocommerce-remove-coupon',
+        function (e) {
+
+            e.preventDefault();
+
+            const removeButton = $(this);
+
+            const couponCode = removeButton.data(
+                'coupon'
+            );
+
+            if (!couponCode) {
+                return;
+            }
+
+            removeButton.css(
+                'pointer-events',
+                'none'
+            );
+
+            $.ajax({
+
+                type: 'POST',
+
+                url: wc_cart_params.ajax_url,
+
+                dataType: 'json',
+
+                data: {
+                    action: 'remove_custom_coupon',
+                    coupon_code: couponCode
+                },
+
+                success: function (response) {
+
+                    updateWooCommerceNotices(response);
+
+                    updateMiniCartFromResponse(response);
+
+                    if (!response.success) {
+                        return;
+                    }
+
+                    $(document.body).trigger(
+                        'wc_update_cart'
+                    );
+
+                },
+
+                error: function (xhr) {
+
+                    console.error(
+                        'Remove coupon AJAX error:',
+                        xhr.responseText
+                    );
+
+                },
+
+                complete: function () {
+
+                    removeButton.css(
+                        'pointer-events',
+                        ''
+                    );
+
+                }
+
+            });
+
+        }
+    );
 
 });

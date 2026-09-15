@@ -198,16 +198,28 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
 
+		<?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
+			<div class="d-flex justify-content-between align-items-center mb-3 fee">
+				<span class="text-muted"><?php echo esc_html( $fee->name ); ?></span>
+				<span class="fw-bold text-dark" data-title="<?php echo esc_attr( $fee->name ); ?>">
+                    <?php wc_cart_totals_fee_html( $fee ); ?>
+                </span>
+			</div>
+		<?php endforeach; ?>
+
 		<?php
 			$taxes = WC()->cart->get_tax_totals();
 			if ( ! empty( $taxes ) ) {
 				foreach ( $taxes as $tax ) {
 
-				if( WC()->cart->display_prices_including_tax() ) {
-					$taxval = 'Included in price';
-				} else {
+					// if( WC()->cart->display_prices_including_tax() ) {
+					// 	$taxval = 'Included in price';
+					// } else {
+					// 	$taxval = wp_kses_post( $tax->formatted_amount );
+					// }
+
 					$taxval = wp_kses_post( $tax->formatted_amount );
-				}
+
 					?>
 					<div class="d-flex justify-content-between mb-3">
 						<span class="text-muted"><?php echo esc_html( $tax->label ); ?></span>
@@ -217,6 +229,15 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 				}
 			}
 		?>
+
+		<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
+			<div class="d-flex justify-content-between mb-3 coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?> d-flex justify-content-between mb-2" id="discountRow">
+				<span class="text-success">
+					<i class="bi bi-tag-fill me-1"></i><?php wc_cart_totals_coupon_label( $coupon ); ?>
+				</span>
+				<span class="text-success fw-bold"><?php wc_cart_totals_coupon_html( $coupon ); ?></span>
+			</div>
+		<?php endforeach; ?>
 
 		<hr class="my-2">
 
