@@ -599,33 +599,54 @@ body.single-product {
         }
     }
 }
-
-.order-summary-sticky {
-    .woocommerce-checkout-review-order-table {
-        .total_payable {
-            #checkoutTotal {
-                .includes_tax {
-                    display: none;
+.woocommerce-checkout {
+    .order-summary-sticky {
+        .woocommerce-checkout-review-order-table {
+            .total_payable {
+                #checkoutTotal {
+                    .includes_tax {
+                        display: none;
+                    }
+                }
+            }
+            .btn-pay-now {
+                position: relative;
+                cursor: pointer;
+                #place_order {
+                    background-color: transparent;
+                    border: 0;
+                    color: #fff;
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                    opacity: 0;
+                    z-index: 10;
+                    cursor: pointer;
+                }
+            }
+        }
+        #payment {
+            background: transparent;
+            border-radius: 0;
+            .place-order {
+                #place_order {
+                    float: none;
                 }
             }
         }
     }
     #payment {
-        background: transparent;
-        border-radius: 0;
-        .place-order {
-            #place_order {
-                float: none;
-            }
-        }
+        background: #fff;
+        border-radius: 16px;
     }
 }
-
-
 
 .wc_legal_notice {
     .woocommerce-privacy-policy-text {
         p {
+            margin: 0;
             &::before {
                 content: "\f47a";
                 display: inline-block;
@@ -670,6 +691,23 @@ body.single-product {
                 top: 7px;
                 left: 50%;
                 transform: translate(-50%, -55%);
+            }
+        }
+    }
+}
+
+.woocommerce-checkout-payment {
+    .wc_payment_method {
+        .payment_box {
+            background-color: transparent !important;
+            padding: 0 !important;
+
+            &::before {
+                display: none !important;
+            }
+
+            .p-CardForm {
+                display: none;
             }
         }
     }

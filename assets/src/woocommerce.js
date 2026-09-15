@@ -149,3 +149,37 @@ jQuery(function ($) {
     });
 
 });
+
+// selected class to payment method
+document.addEventListener('change', function (e) {
+
+    if (e.target.matches('.pay-card input[name="payment_method"]')) {
+
+        const payCards = document.querySelectorAll('.pay-card');
+
+        if (payCards.length > 0) {
+
+            payCards.forEach(function (card) {
+                card.classList.remove('selected');
+            });
+
+            const selectedCard = e.target.closest('.pay-card');
+
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+        }
+    }
+
+});
+
+// COD Fee update on checkout
+jQuery(function ($) {
+
+    $(document.body).on('change', 'input[name="payment_method"]', function () {
+
+        $(document.body).trigger('update_checkout');
+
+    });
+
+});

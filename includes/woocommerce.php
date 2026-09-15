@@ -406,6 +406,25 @@ add_action( 'wp_enqueue_scripts', function() {
 
 }, 20 );
 
+// Change payment method position in checkout
+remove_action(
+    'woocommerce_checkout_order_review',
+    'woocommerce_checkout_payment',
+    20
+);
+
+add_action(
+    'woocommerce_checkout_after_customer_details',
+    'woocommerce_checkout_payment',
+    20
+);
+
+
+
+
+
+
+
 
 
 // add_action( 'woocommerce_cart_calculate_fees', 'add_cod_handling_fee' );
