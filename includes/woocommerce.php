@@ -475,5 +475,75 @@ add_filter( 'woocommerce_registration_errors', function( $errors, $username, $em
 // remove default Registration privacy policy
 remove_action( 'woocommerce_register_form', 'wc_registration_privacy_policy_text', 20 );
 
+// Register Shipped order status
+add_action('init', function () {
+
+    register_post_status('wc-shipped', array(
+        'label'                     => 'Shipped',
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop(
+            'Shipped <span class="count">(%s)</span>',
+            'Shipped <span class="count">(%s)</span>'
+        ),
+    ));
+
+});
+
+// Add Shipped to WooCommerce order statuses
+add_filter('wc_order_statuses', function ($order_statuses) {
+
+    $new_statuses = array();
+
+    foreach ($order_statuses as $key => $label) {
+
+        $new_statuses[$key] = $label;
+        
+        if ($key === 'wc-processing') {
+            $new_statuses['wc-shipped'] = 'Shipped';
+        }
+    }
+
+    return $new_statuses;
+});
+
+// body class based on order status in thank you page
+add_filter( 'body_class', function( $classes ) {
+
+    if ( is_order_received_page() ) {
+
+        $order_id = absint( get_query_var( 'order-received' ) );
+        $order    = wc_get_order( $order_id );
+
+        if ( $order ) {
+            $status = $order->get_status();
+
+            $classes[] = 'order-status-' . sanitize_html_class( $status );
+        }
+    }
+
+    return $classes;
+} );
+
+// function to show contact details in order receive
+function order_receive_footer() {
+    echo '<div class="mt-2 d-flex gap-3 justify-content-center flex-wrap">';
+        $order_received_email = get_field('order_received_email', 'option');
+        if($order_received_email) :
+            echo '<a href="mailto:'.$order_received_email.'" class="text-magenta small fw-600 text-decoration-none">
+                    <i class="bi bi-envelope me-1"></i>'.$order_received_email.'
+                    </a>';
+        endif;
+
+        $order_received_phone = get_field('order_received_phone', 'option');
+        if($order_received_phone) :
+            echo '<a href="tel:'.$order_received_phone.'" class="text-magenta small fw-600 text-decoration-none">
+                    <i class="bi bi-telephone me-1"></i>'.$order_received_phone.'
+                    </a>';
+        endif;
+    echo '</div>';    
+}
 
 ?>

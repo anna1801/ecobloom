@@ -1,36 +1,45 @@
 <!-- WordPress default template for pages -->
 <?php get_header(); ?> 
 
-    <?php inner_hero(); ?>
-
     <?php if (is_cart()) : ?>
+
+        <?php inner_hero(); ?>
         
         <?php the_content(); ?>
 
     <?php elseif (is_checkout()) : ?>
+        
+        <?php if ( is_order_received_page() ) : ?>
 
-        <div class="container pt-4 pb-2">
-            <div class="checkout-steps">
-                <div class="checkout-step done">
-                    <div class="step-circle"><i class="bi bi-check-lg"></i></div>
-                    <span class="step-label">Shopping Bag</span>
-                </div>
-                <div class="step-connector done"></div>
-                <div class="checkout-step active">
-                    <div class="step-circle">2</div>
-                    <span class="step-label">Checkout</span>
-                </div>
-                <div class="step-connector"></div>
-                <div class="checkout-step">
-                    <div class="step-circle">3</div>
-                    <span class="step-label">Confirmation</span>
+        <?php else : ?>
+            <?php inner_hero(); ?>
+
+            <div class="container pt-4 pb-2">
+                <div class="checkout-steps">
+                    <div class="checkout-step done">
+                        <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                        <span class="step-label">Shopping Bag</span>
+                    </div>
+                    <div class="step-connector done"></div>
+                    <div class="checkout-step active">
+                        <div class="step-circle">2</div>
+                        <span class="step-label">Checkout</span>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="checkout-step">
+                        <div class="step-circle">3</div>
+                        <span class="step-label">Confirmation</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
 
         <?php the_content(); ?>
 
     <?php else : ?>
+
+        <?php inner_hero(); ?>
+
         <section class="py-5 default-page">
             <div class="container py-3">
                 <div class="row justify-content-center">
