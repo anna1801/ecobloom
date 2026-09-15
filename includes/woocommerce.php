@@ -419,39 +419,61 @@ add_action(
     20
 );
 
+// Password validation in registration form
+add_filter( 'woocommerce_registration_errors', function( $errors, $username, $email ) {
+
+    $password         = isset( $_POST['password'] ) ? (string) wp_unslash( $_POST['password'] ) : '';
+    $password_confirm = isset( $_POST['password_confirm'] ) ? (string) wp_unslash( $_POST['password_confirm'] ) : '';
+
+    if ( $password !== $password_confirm ) {
+        $errors->add(
+            'password_mismatch',
+            __( 'Passwords do not match.', 'woocommerce' )
+        );
+    }
+
+    return $errors;
+
+}, 10, 3 );
 
 
+// save first name and last name of user registration
+add_action( 'woocommerce_created_customer', function( $customer_id ) {
 
+    if ( isset( $_POST['first_name'] ) ) {
+        update_user_meta(
+            $customer_id,
+            'first_name',
+            sanitize_text_field( wp_unslash( $_POST['first_name'] ) )
+        );
+    }
 
+    if ( isset( $_POST['last_name'] ) ) {
+        update_user_meta(
+            $customer_id,
+            'last_name',
+            sanitize_text_field( wp_unslash( $_POST['last_name'] ) )
+        );
+    }
 
+} );
 
+// Validate registration form consent Registration privacy policy
+add_filter( 'woocommerce_registration_errors', function( $errors, $username, $email ) {
 
+    if ( empty( $_POST['privacy_policy'] ) ) {
+        $errors->add(
+            'privacy_policy_error',
+            __( 'Please accept the Privacy Policy.', 'woocommerce' )
+        );
+    }
 
-// add_action( 'woocommerce_cart_calculate_fees', 'add_cod_handling_fee' );
+    return $errors;
 
-// function add_cod_handling_fee( $cart ) {
+}, 10, 3 );
 
-//     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-//         return;
-//     }
-
-//     $chosen_payment_method = WC()->session->get( 'chosen_payment_method' );
-
-//     if ( 'cod' === $chosen_payment_method ) {
-//         $cart->add_fee( 'Cash on Delivery Fee', 1, false );
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
+// remove default Registration privacy policy
+remove_action( 'woocommerce_register_form', 'wc_registration_privacy_policy_text', 20 );
 
 
 ?>

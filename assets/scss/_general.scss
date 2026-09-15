@@ -197,3 +197,21 @@ body.single-post {
 .bg-magenta {
     background-color: rgba(214 51 132)
 }
+
+.login_page {
+    #register {
+        display: none;
+    }
+    #login {
+        .woocommerce-button {
+            float: none;
+            margin: 0;
+        }
+    }
+}
+
+.register_page {
+    #login {
+        display: none;
+    }
+}

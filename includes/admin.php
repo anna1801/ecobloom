@@ -28,7 +28,9 @@ function restrict_page_templates_to_one_page( $templates ) {
         'template/template-about.php',
         'template/template-contact.php',
         'template/template-image_gallery.php',
-        'template/template-video_library.php',
+        'template/template-video_library.php', 
+        'template/template-login.php', 
+        'template/template-register.php',
     );
 
     foreach ( $restricted_templates as $template_file ) {

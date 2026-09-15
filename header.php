@@ -43,24 +43,37 @@
 
                     <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
 
+                        <?php 
+                            $my_account_url = wc_get_page_permalink( 'myaccount' ); 
+                        ?>
 
-
-
-                        <!-- to do -->
                         <div class="account-dropdown">
                             <a href="#" class="nav-icon-btn" aria-label="My Account">
                                 <i class="bi bi-person"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item fw-bold text-magenta" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
-                                <a class="dropdown-item" href="register.html"><i class="bi bi-person-plus"></i> Sign Up</a>
-                                <a class="dropdown-item" href="forgot-password.html"><i class="bi bi-key"></i> Forgot Password</a>
-                                <hr class="dropdown-divider">
-                                <a class="dropdown-item" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+
+                                <?php if ( is_user_logged_in() ) : ?>
+                                    <a class="dropdown-item" href="<?php echo $my_account_url; ?>"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                                <?php else : ?>
+
+
+
+
+
+
+                                    <a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
+                                    <a class="dropdown-item" href="register.html"><i class="bi bi-person-plus"></i> Sign Up</a>
+                                    <a class="dropdown-item" href="forgot-password.html"><i class="bi bi-key"></i> Forgot Password</a>
+
+
+
+
+
+                                <?php endif; ?>
+
                             </div>
                         </div>
-                        <!-- to do end-->
-                         
 
                         <button class="nav-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideCart"
                             aria-controls="sideCart" aria-label="Open Shopping Bag">
