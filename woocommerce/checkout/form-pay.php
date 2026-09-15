@@ -77,7 +77,21 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
                                     ?>
 
                                     <div class="checkout-order-item <?php echo esc_attr( apply_filters( 'woocommerce_order_item_class', 'order_item', $item, $order ) ); ?>">
-                                        <img src="images/banner_cup.png" class="checkout-order-img" alt="Cup">
+
+                                        <?php 
+
+                                            $product = $item->get_product();
+
+                                            if ( $product ) {
+                                                echo $product->get_image(
+                                                    'woocommerce_thumbnail',
+                                                    array(
+                                                        'class' => 'checkout-order-img',
+                                                    )
+                                                );
+                                            }
+                                        ?>
+                                        
                                         <div class="flex-grow-1">
                                             <div class="fw-bold text-dark small">
                                                 <?php
@@ -104,10 +118,12 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
 
                             <?php if ( $totals ) : ?>
                                 <?php foreach ( $totals as $total ) : ?>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span class="text-muted small"><?php echo $total['label']; ?></span>
-                                        <span class="fw-500 text-dark small"><?php echo $total['value']; ?></span>
-                                    </div>
+                                    <?php if( $total['type'] != 'total') : ?>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted small"><?php echo $total['label']; ?></span>
+                                            <span class="fw-500 text-dark small"><?php echo $total['value']; ?></span>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                 
