@@ -54,21 +54,38 @@
                             <div class="dropdown-menu dropdown-menu-end">
 
                                 <?php if ( is_user_logged_in() ) : ?>
+
                                     <a class="dropdown-item" href="<?php echo $my_account_url; ?>"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                                    
                                 <?php else : ?>
 
+                                    <?php
+                                        $loginpages = get_pages( array(
+                                            'meta_key'   => '_wp_page_template',
+                                            'meta_value' => 'template/template-login.php',
+                                            'number'     => 1,
+                                        ) );
 
+                                        if ( ! empty( $loginpages ) ) :
+                                            $login_url = get_permalink( $loginpages[0]->ID );
+                                            echo '<a class="dropdown-item" href="'.$login_url.'"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>';
+                                        endif;
+                                    ?>
 
+                                    <?php
+                                        $registerpages = get_pages( array(
+                                            'meta_key'   => '_wp_page_template',
+                                            'meta_value' => 'template/template-register.php',
+                                            'number'     => 1,
+                                        ) );
 
+                                        if ( ! empty( $registerpages ) ) :
+                                            $register_url = get_permalink( $registerpages[0]->ID );
+                                            echo '<a class="dropdown-item" href="'.$register_url.'"><i class="bi bi-person-plus"></i> Sign Up</a>';
+                                        endif;
+                                    ?>
 
-
-                                    <a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
-                                    <a class="dropdown-item" href="register.html"><i class="bi bi-person-plus"></i> Sign Up</a>
-                                    <a class="dropdown-item" href="forgot-password.html"><i class="bi bi-key"></i> Forgot Password</a>
-
-
-
-
+                                    <a class="dropdown-item" href="<?php echo esc_url( wc_lostpassword_url() ); ?>"><i class="bi bi-key"></i> Forgot Password</a>
 
                                 <?php endif; ?>
 

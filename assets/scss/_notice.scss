@@ -1,0 +1,154 @@
+.woocommerce-message,
+.woocommerce-error,
+.woocommerce-info {
+    outline: none !important;
+}
+
+.woocommerce-notices-wrapper {
+
+    .woocommerce-message,
+    .woocommerce-error,
+    .woocommerce-info {
+        outline: none !important;
+        width: max-content;
+        margin: 20px auto 0px;
+        border: 0;
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding-right: 10px;      
+    }
+
+    .woocommerce-message {
+        border: 2px solid #8fae1b;
+
+        &::before {
+            top: 0;
+            bottom: 0;
+            align-self: center;
+        }
+
+        .button,
+        a.restore-item {
+            background-color: #6d28d9;
+            color: #fff;
+            padding: .75rem 1.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: .95rem;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(109, 40, 217, .25);
+            transition: var(--transition-smooth);
+            &:hover {
+                background-color: #5b21b6;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(109, 40, 217, .35);
+            }
+        }
+    }
+
+    .woocommerce-error {
+        border: 2px solid #b81c23;
+    }
+
+    .woocommerce-info {
+        border: 2px solid #1e85be;
+
+        &.cart-empty {
+            display: none;
+        }
+    }
+
+}
+
+.inner-woocommerce,
+.body-content,
+.woocommerce-MyAccount-content {
+    .woocommerce-notices-wrapper {
+        .woocommerce-message,
+        .woocommerce-error,
+        .woocommerce-info {
+            border: 0;
+            border-top: 2px solid;
+            border-radius: 0;
+            margin: 0 0 2em;
+            width: 100%;
+
+            a {
+                color: var(--accent-pink) !important;
+            }
+        }
+
+        .woocommerce-message {
+            border-color: #8fae1b;
+        }
+
+        .woocommerce-error {
+            border-color: #b81c23;
+        }
+
+        .woocommerce-info {
+            border-color: #1e85be;
+        }
+
+        a.button {
+            background-color: #6d28d9;
+            color: #fff !important;
+            padding: .75rem 1.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: .95rem;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(109, 40, 217, .25);
+            transition: var(--transition-smooth);
+            &:hover {
+                background-color: #5b21b6;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(109, 40, 217, .35);
+            }
+        }
+    }
+}
+
+.woocommerce-account {
+    .woocommerce-MyAccount-content {
+        .woocommerce-info {
+            .button {
+                background-color: #6d28d9;
+                color: #fff;
+                padding: .75rem 1.75rem;
+                border-radius: 50px;
+                font-weight: 600;
+                font-size: .95rem;
+                display: inline-block;
+                text-decoration: none;
+                box-shadow: 0 4px 15px rgba(109, 40, 217, .25);
+                transition: var(--transition-smooth);
+                &:hover {
+                    background-color: #5b21b6;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(109, 40, 217, .35);
+                }                
+            }
+        }
+        .myaccount-dashboard {
+            a {
+                color: var(--accent-pink);
+                text-decoration: none;
+            }
+        }
+        .myaccount-orders {
+            .woocommerce-orders-table {
+                .woocommerce-orders-table__cell-order-actions {
+                    a {
+                        margin: 5px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -36,6 +36,16 @@
 
         <?php the_content(); ?>
 
+    <?php elseif (is_account_page()) : ?>
+
+        <?php inner_hero(); ?>
+        
+        <section class="py-5">
+            <div class="container py-3">
+                <?php the_content(); ?>
+            </div>
+        </section>
+
     <?php else : ?>
 
         <?php inner_hero(); ?>
