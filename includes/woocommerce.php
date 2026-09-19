@@ -546,4 +546,30 @@ function order_receive_footer() {
     echo '</div>';    
 }
 
+// Save phone number in edit account details page
+add_action( 'woocommerce_save_account_details', function( $user_id ) {
+
+    if ( isset( $_POST['account_phone'] ) ) {
+        update_user_meta(
+            $user_id,
+            'billing_phone',
+            sanitize_text_field( wp_unslash( $_POST['account_phone'] ) )
+        );
+    }
+
+} );
+
+// Make phone number in edit account details page as mandatory
+add_action( 'woocommerce_save_account_details_errors', function( $errors, $user ) {
+
+    if ( empty( $_POST['account_phone'] ) ) {
+        $errors->add(
+            'account_phone_error',
+            __( '<strong>Phone number</strong> is a required field. ', 'woocommerce' )
+        );
+    }
+
+}, 10, 2 );
+
+
 ?>

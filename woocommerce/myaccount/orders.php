@@ -70,6 +70,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 								$status_classes = array(
 									'completed'  => 'bg-success-subtle text-success',
 									'processing' => 'bg-primary-subtle text-primary',
+									'shipped'    => 'bg-primary-subtle text-primary',
 									'on-hold'    => 'bg-warning-subtle text-warning',
 									'pending'    => 'bg-warning-subtle text-warning',
 									'cancelled'  => 'bg-danger-subtle text-danger',
@@ -94,7 +95,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 										<time datetime="<?php echo esc_attr( $order->get_date_created()->date( 'c' ) ); ?>"><?php echo esc_html( wc_format_datetime( $order->get_date_created() ) ); ?></time>
 
 									<?php elseif ( 'order-status' === $column_id ) : ?>
-										<span class="<?php echo $status_class; ?> badge bg-success-subtle px-3 py-1 rounded-pill"><?php echo esc_html( wc_get_order_status_name( $order->get_status() ) ); ?></span>
+										<span class="<?php echo $status_class; ?> badge px-3 py-1 rounded-pill"><?php echo esc_html( wc_get_order_status_name( $order->get_status() ) ); ?></span>
 
 									<?php elseif ( 'order-total' === $column_id ) : ?>
 										<?php echo $order->get_formatted_order_total(); ?>

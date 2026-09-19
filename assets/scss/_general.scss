@@ -134,33 +134,35 @@ body.single-post {
         color: var(--bs-dropdown-link-color);
     }
 }
-.navbar-nav {
-    .menu-item {
-        &:not(.page_item) {
-            .nav-link {
-                &.active,
-                &.show {
-                    color: var(--bs-navbar-active-color) !important;
-                    &::after {
-                        display: none;
+header {
+    .navbar-nav {
+        .menu-item {
+            &:not(.page_item) {
+                .nav-link {
+                    &.active,
+                    &.show {
+                        color: var(--bs-navbar-active-color) !important;
+                        &::after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            .dropdown-menu {
+                .menu-item {
+                    &.page_item {
+                        .dropdown-item {
+                            &.active {
+                                background-color: #fdf2f8;
+                                color: var(--accent-pink);
+                            }
+                        } 
                     }
                 }
             }
         }
-        .dropdown-menu {
-            .menu-item {
-                &.page_item {
-                    .dropdown-item {
-                        &.active {
-                            background-color: #fdf2f8;
-                            color: var(--accent-pink);
-                        }
-                    } 
-                }
-            }
-        }
-    }
-} 
+    } 
+}
 
 .navbar-sticky-wrapper {
     @media (min-width: 991.99px) {

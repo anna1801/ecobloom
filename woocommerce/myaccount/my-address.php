@@ -42,7 +42,7 @@ $oldcol = 1;
 $col    = 1;
 ?>
 
-<div class="about-story-box p-4 bg-white woocommerce-Address">
+<div class="woocommerce-Address">
 
 	<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
 		<h4 class="fw-bold text-dark mb-0">Your Saved Addresses</h4>

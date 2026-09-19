@@ -36,6 +36,18 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 				<?php
 					foreach ( $address as $key => $field ) { 
 
+						if ( 'billing_address_2' === $key || 'shipping_address_2' === $key ) {
+							$field['label_class'] = array_diff(
+								$field['label_class'] ?? array(),
+								array( 'screen-reader-text' )
+							);
+						}
+
+						$field['class'] = array_diff(
+							$field['class'] ?? array(),
+							array( 'form-row-first', 'form-row-last' )
+						);
+
 						$field['class'][]       = 'col-md-6';
 						$field['label_class'][] = 'form-label fw-semibold small text-dark';
 						$field['input_class'][] = 'form-control rounded-pill px-4 py-2';
