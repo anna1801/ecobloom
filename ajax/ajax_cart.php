@@ -119,7 +119,7 @@ function update_mini_cart_quantity() {
 
     $fragments = array(
         'div.widget_shopping_cart_content' =>
-            '<div class="widget_shopping_cart_content">' .
+            '<div class="offcanvas-body p-0 d-flex flex-column justify-content-between widget_shopping_cart_content">' .
             $mini_cart_html .
             '</div>',
     );
@@ -197,7 +197,7 @@ function remove_cart_item_custom() {
 
     $fragments = array(
         'div.widget_shopping_cart_content' =>
-            '<div class="widget_shopping_cart_content">' .
+            '<div class="offcanvas-body p-0 d-flex flex-column justify-content-between widget_shopping_cart_content">' .
             $mini_cart_html .
             '</div>',
     );
@@ -362,7 +362,7 @@ function update_cart_shipping_method() {
 
 	$fragments = array(
 		'div.widget_shopping_cart_content' =>
-			'<div class="widget_shopping_cart_content">' .
+			'<div class="offcanvas-body p-0 d-flex flex-column justify-content-between widget_shopping_cart_content">' .
 			$mini_cart_html .
 			'</div>',
 	);
@@ -404,7 +404,7 @@ function refresh_mini_cart() {
 
     $fragments = array(
         'div.widget_shopping_cart_content' =>
-            '<div class="widget_shopping_cart_content">' .
+            '<div class="offcanvas-body p-0 d-flex flex-column justify-content-between widget_shopping_cart_content">' .
             $mini_cart_html .
             '</div>',
     );
@@ -464,7 +464,7 @@ function apply_custom_coupon() {
 
     $fragments = array(
         'div.widget_shopping_cart_content' =>
-            '<div class="widget_shopping_cart_content">' .
+            '<div class="offcanvas-body p-0 d-flex flex-column justify-content-between widget_shopping_cart_content">' .
             $mini_cart_html .
             '</div>',
     );
@@ -532,7 +532,7 @@ function remove_custom_coupon() {
 
     $fragments = array(
         'div.widget_shopping_cart_content' =>
-            '<div class="widget_shopping_cart_content">' .
+            '<div class="offcanvas-body p-0 d-flex flex-column justify-content-between widget_shopping_cart_content">' .
             $mini_cart_html .
             '</div>',
     );

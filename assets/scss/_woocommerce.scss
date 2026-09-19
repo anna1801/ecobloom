@@ -136,6 +136,11 @@ body.single-product {
 }
 
 .woocommerce-cart {
+    .cart-empty {
+        &.woocommerce-info {
+            display: none;
+        }
+    } 
     .wc-block-cart__empty-cart__title.with-empty-cart-icon:before {
         background-color: currentColor;
         content: "";
@@ -185,8 +190,9 @@ body.single-product {
                 text-align: right;
             }
             .woocommerce-shipping-destination {
-                margin-bottom: 0;
-                font-size: .875em;
+                // margin-bottom: 0;
+                // font-size: .875em;
+                display: none;
             }
         }
         .shipping-calculator-button {

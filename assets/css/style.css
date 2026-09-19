@@ -3198,6 +3198,9 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   opacity: 0.85;
 }
 
+.woocommerce-cart .cart-empty.woocommerce-info {
+  display: none;
+}
 .woocommerce-cart .wc-block-cart__empty-cart__title.with-empty-cart-icon:before {
   background-color: currentColor;
   content: "";
@@ -3233,8 +3236,7 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   text-align: right;
 }
 .woocommerce-cart .shop_table .shipping .woocommerce-shipping-destination {
-  margin-bottom: 0;
-  font-size: 0.875em;
+  display: none;
 }
 .woocommerce-cart .shop_table .shipping-calculator-button {
   text-decoration: none;
