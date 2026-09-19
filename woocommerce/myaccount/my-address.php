@@ -84,9 +84,102 @@ $col    = 1;
 
 					</div>
 
-					<address class="text-dark small mb-3">
+					<address>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+	$first_name = get_user_meta( $customer_id, $name . '_first_name', true );
+	$last_name  = get_user_meta( $customer_id, $name . '_last_name', true );
+
+	$address_1  = get_user_meta( $customer_id, $name . '_address_1', true );
+	$address_2  = get_user_meta( $customer_id, $name . '_address_2', true );
+
+	$address_full = array_filter(
+		array(
+			$address_1,
+			$address_2,
+		)
+	);
+
+	$city       = get_user_meta( $customer_id, $name . '_city', true );
+	$country    = get_user_meta( $customer_id, $name . '_country', true );
+	$state_code = get_user_meta( $customer_id, $name . '_state', true );
+
+	if( $country && $state_code ) {
+		$states = WC()->countries->get_states( $country );
+		$state = isset( $states[ $state_code ] )
+				? $states[ $state_code ]
+				: $state_code;
+	} else {
+		$state = 'KL';
+	}
+
+	$location = array_filter(
+		array(
+			$city,
+			$state,
+		)
+	);
+
+	$postcode   = get_user_meta( $customer_id, $name . '_postcode', true );
+	$phone      = get_user_meta( $customer_id, $name . '_phone', true );
+
+	if( $first_name || $last_name) :
+		$full_name = trim( $first_name . ' ' . $last_name );
+		echo '<h5 class="fw-bold text-dark mb-1">'.esc_html( $full_name ).'</h5>';
+	endif;
+
+	echo '<p class="text-dark small mb-3">';
+		if ( $address_full ) :
+			echo esc_html( implode( ', ', $address_full ) );
+		endif;
+
+		echo '<br>';
+
+		if ( $location ) :
+			echo esc_html( implode( ', ', $location ) );
+		endif;
+
+		if ( $postcode ) :
+			echo ' - '.esc_html( $postcode );
+		endif;
+
+		echo '<br>';
+
+		if ( $phone ) :
+			echo 'Phone:'.esc_html( $phone ); 
+		endif;
+	echo '</p>';
+?>
+
+
+
+
+
+
+
+
+
+
+
+
 						<?php
-							echo $address ? wp_kses_post( $address ) : esc_html_e( 'You have not set up this type of address yet.', 'woocommerce' );
+							//echo $address ? wp_kses_post( $address ) : esc_html_e( 'You have not set up this type of address yet.', 'woocommerce' );
 
 							do_action( 'woocommerce_my_account_after_my_address', $name );
 						?>

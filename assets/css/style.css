@@ -3934,6 +3934,9 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(109, 40, 217, 0.35);
 }
+.woocommerce-account .woocommerce-MyAccount-contents .myaccount-editaddress {
+  height: auto;
+}
 .woocommerce-account .woocommerce-MyAccount-contents .myaccount-editaddress .woocommerce-address-fields .field_row {
   margin: 0;
 }

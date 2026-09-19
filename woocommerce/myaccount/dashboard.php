@@ -153,7 +153,7 @@ $customer_orders = wc_get_orders(
 
 								$status_class = $status_classes[ $order_status ] ?? 'bg-secondary-subtle text-secondary';
 								?>
-								<span class="badge bg-success-subtle <?php echo esc_attr( $status_class ); ?> px-3 py-1 rounded-pill">
+								<span class="badge <?php echo esc_attr( $status_class ); ?> px-3 py-1 rounded-pill">
 									<?php echo esc_html( $status_label ); ?>
 								</span>
 							</td>
