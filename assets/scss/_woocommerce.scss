@@ -964,6 +964,24 @@ body {
                     }
                 }
             }
+
+            .payment_methods {
+                padding: 0 !important;
+                border: 0;
+                background: transparent;
+
+                .woocommerce-PaymentMethod {
+                    background: #fff;
+
+                    .payment_box {
+                        background: transparent !important;
+
+                        &::before {
+                            display: none !important;
+                        }
+                    }
+                }
+            }
         }
     }
 }

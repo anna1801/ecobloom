@@ -3996,6 +3996,20 @@ body.woocommerce-account .woocommerce-MyAccount-contents #accountTabs .nav-link.
 body.woocommerce-account .woocommerce-MyAccount-contents #accountTabs .nav-link::after {
   display: none;
 }
+body.woocommerce-account .woocommerce-MyAccount-contents .payment_methods {
+  padding: 0 !important;
+  border: 0;
+  background: transparent;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .payment_methods .woocommerce-PaymentMethod {
+  background: #fff;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .payment_methods .woocommerce-PaymentMethod .payment_box {
+  background: transparent !important;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .payment_methods .woocommerce-PaymentMethod .payment_box::before {
+  display: none !important;
+}
 
 .woocommerce-message,
 .woocommerce-error,
