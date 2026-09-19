@@ -58,4 +58,38 @@ add_filter(
 );
 
 
+// Add store name and GSTIN custom fields in Woocommerce -> settings -> General
+add_filter( 'woocommerce_general_settings', function( $settings ) {
+
+    $new_settings = array();
+
+    foreach ( $settings as $setting ) {
+
+        $new_settings[] = $setting;
+
+        if ( isset( $setting['id'] ) && 'woocommerce_store_address_2' === $setting['id'] ) {
+
+            $new_settings[] = array(
+                'title'    => __( 'Store Name', 'woocommerce' ),
+                'desc'     => __( 'Enter your store/business name.', 'woocommerce' ),
+                'id'       => 'woocommerce_store_name',
+                'type'     => 'text',
+                'default'  => '',
+                'desc_tip' => true,
+            );
+
+            $new_settings[] = array(
+                'title'    => __( 'GSTIN', 'woocommerce' ),
+                'desc'     => __( 'Enter your GSTIN number.', 'woocommerce' ),
+                'id'       => 'woocommerce_store_gstin',
+                'type'     => 'text',
+                'default'  => '',
+                'desc_tip' => true,
+            );
+        }
+    }
+
+    return $new_settings;
+} );
+
 ?>

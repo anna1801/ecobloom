@@ -126,7 +126,7 @@ $col    = 1;
 				? $states[ $state_code ]
 				: $state_code;
 	} else {
-		$state = 'KL';
+		$state = 'KA';
 	}
 
 	$location = array_filter(
