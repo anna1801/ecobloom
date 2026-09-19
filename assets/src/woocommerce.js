@@ -183,3 +183,41 @@ jQuery(function ($) {
     });
 
 });
+
+// Error on payment-method model popup
+jQuery(function ($) {
+
+	function movePaymentError() {
+
+		var $error = $('.woocommerce-notices-wrapper .woocommerce-error');
+		var $paymentError = $('.payment-error');
+
+		if ($error.length && $paymentError.length) {
+			$paymentError.html($error.clone());
+		}
+	}
+
+	$(document).on('click', '#add_payment_method #place_order', function () {
+
+		$('.payment-error').empty();
+        
+		var attempts = 0;
+
+		var checkError = setInterval(function () {
+
+			movePaymentError();
+
+			attempts++;
+
+			if (
+				$('.woocommerce-notices-wrapper .woocommerce-error').length ||
+				attempts >= 20
+			) {
+				clearInterval(checkError);
+			}
+
+		}, 250);
+
+	});
+
+});

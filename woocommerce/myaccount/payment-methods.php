@@ -200,6 +200,7 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods );
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
+				<div class="payment-error"></div>
 				<?php  wc_get_template( 'myaccount/form-add-payment-method.php' ); ?>
 			</div>
 		</div>
