@@ -48,6 +48,80 @@ defined( 'ABSPATH' ) || exit;
 
 			<div class="row g-3">
 
+				<div class="col-md-6">
+					<?php
+						woocommerce_form_field(
+							'shipping_first_name',
+							array_merge(
+								$fields['shipping_first_name'],
+								array(
+									'label_class'   => array( 'form-label', 'fw-semibold', 'small', 'text-dark' ),
+									'input_class'   => array( 'form-control', 'checkout-input-modern', 'px-4', 'py-2' ),
+									'placeholder'   => 'Priya',
+									'class'         => array( 'form-group' ),
+								)
+							),
+							$checkout->get_value( 'shipping_first_name' )
+						);
+					?>
+				</div>
+			
+				<div class="col-md-6">
+					<?php
+						woocommerce_form_field(
+							'shipping_last_name',
+							array_merge(
+								$fields['shipping_last_name'],
+								array(
+									'label_class'   => array( 'form-label', 'fw-semibold', 'small', 'text-dark' ),
+									'input_class'   => array( 'form-control', 'checkout-input-modern', 'px-4', 'py-2' ),
+									'placeholder'   => 'Sharma',
+									'class'         => array( 'form-group' ),
+								)
+							),
+							$checkout->get_value( 'shipping_last_name' )
+						);
+					?>
+				</div>
+
+				<div class="col-md-6">
+					<?php
+						woocommerce_form_field(
+							'shipping_email',
+							array(
+								'type'        => 'email',
+								'label'       => 'Email Address',
+								//'required'    => true,
+								'label_class' => array( 'form-label', 'fw-semibold', 'small', 'text-dark' ),
+								'input_class' => array( 'form-control', 'checkout-input-modern', 'px-4', 'py-2' ),
+								'placeholder' => 'example@email.com',
+								'class'       => array( 'form-group' ),
+							),
+							$checkout->get_value( 'shipping_email' )
+						);
+					?>
+				</div>
+
+				<div class="col-md-6">
+					<?php
+						woocommerce_form_field(
+							'shipping_phone',
+							array_merge(
+								$fields['shipping_phone'],
+								array(
+									'label'         => 'Phone / WhatsApp',
+									'required'    	=> true,
+									'label_class'   => array( 'form-label', 'fw-semibold', 'small', 'text-dark' ),
+									'input_class'   => array( 'form-control', 'checkout-input-modern', 'px-4', 'py-2' ),
+									'placeholder'   => '+91 98765 43210',
+									'class'         => array( 'form-group' ),
+								)
+							),
+							$checkout->get_value( 'shipping_phone' )
+						);
+					?>
+				</div>
+
 				<div class="col-12">
 					<?php
 						woocommerce_form_field(
@@ -84,7 +158,7 @@ defined( 'ABSPATH' ) || exit;
 					?>
 				</div>
 
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<?php
 						woocommerce_form_field(
 							'shipping_city',
@@ -102,7 +176,7 @@ defined( 'ABSPATH' ) || exit;
 					?>
 				</div>
 
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<?php
 						woocommerce_form_field(
 							'shipping_state',
@@ -119,7 +193,24 @@ defined( 'ABSPATH' ) || exit;
 					?>
 				</div>
 
-				<div class="col-md-4">
+				<div class="col-md-6">
+					<?php 
+						woocommerce_form_field(
+							'shipping_country',
+							array_merge(
+								$fields['shipping_country'],
+								array(
+									'label_class' => array( 'form-label', 'fw-semibold', 'small', 'text-dark' ),
+									'input_class' => array( 'form-control', 'checkout-input-modern', 'px-4', 'py-2' ),
+									'placeholder' => 'Country',
+								)
+							),
+							$checkout->get_value( 'shipping_country' )
+						);
+					?>
+				</div>
+
+				<div class="col-md-6">
 					<?php
 						woocommerce_form_field(
 							'shipping_postcode',

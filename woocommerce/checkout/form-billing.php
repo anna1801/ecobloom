@@ -145,7 +145,7 @@ defined( 'ABSPATH' ) || exit;
 				?>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<?php
 					woocommerce_form_field(
 						'billing_city',
@@ -163,7 +163,7 @@ defined( 'ABSPATH' ) || exit;
 				?>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<?php
 					woocommerce_form_field(
 						'billing_state',
@@ -180,7 +180,24 @@ defined( 'ABSPATH' ) || exit;
 				?>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
+				<?php 
+					woocommerce_form_field(
+						'billing_country',
+						array_merge(
+							$fields['billing_country'],
+							array(
+								'label_class' => array( 'form-label', 'fw-semibold', 'small', 'text-dark' ),
+								'input_class' => array( 'form-control', 'checkout-input-modern', 'px-4', 'py-2' ),
+								'placeholder' => 'Country',
+							)
+						),
+						$checkout->get_value( 'billing_country' )
+					);
+				?>
+			</div>
+
+			<div class="col-md-6">
 				<?php
 					woocommerce_form_field(
 						'billing_postcode',
@@ -194,24 +211,6 @@ defined( 'ABSPATH' ) || exit;
 							)
 						),
 						$checkout->get_value( 'billing_postcode' )
-					);
-				?>
-			</div>
-
-			<div class="col-md-4 hidden">
-				<?php 
-					// Country hidden
-					woocommerce_form_field(
-						'billing_country',
-						array_merge(
-							$fields['billing_country'],
-							array(
-								'label_class' => array( 'form-label', 'fw-semibold', 'small', 'text-dark' ),
-								'input_class' => array( 'form-control', 'checkout-input-modern', 'px-4', 'py-2' ),
-								'placeholder' => 'Country',
-							)
-						),
-						$checkout->get_value( 'billing_country' )
 					);
 				?>
 			</div>

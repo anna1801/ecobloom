@@ -87,6 +87,10 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 					<span class="woocommerce-customer-details--phone"><?php echo esc_html( $order->get_shipping_phone() ); ?></span>
 				<?php endif; ?>
 
+				<?php if ( $order->get_meta( '_shipping_email' ) ) : ?>
+					<span class="woocommerce-customer-details--email"><?php echo esc_html( $order->get_meta( '_shipping_email' ) ); ?></span>
+				<?php endif; ?>
+
 				<?php do_action( 'woocommerce_order_details_after_customer_address', 'shipping', $order ); ?>
 			</p>
 		</div>

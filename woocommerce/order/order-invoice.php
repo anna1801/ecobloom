@@ -112,8 +112,10 @@ $shipping_states = WC()->countries->get_states( $shipping_country );
 
 $shipping_state_name = isset( $shipping_states[ $shipping_state ] ) ? $shipping_states[ $shipping_state ] : $shipping_state;
 
+$shipping_name = $order->get_formatted_shipping_full_name();
 $shipping_address = array_filter(
     array(
+		$order->get_shipping_address_1(),
         $order->get_shipping_address_1(),
         $order->get_shipping_address_2(),
         $order->get_shipping_city(),
@@ -313,6 +315,13 @@ foreach ( $order->get_items( 'tax' ) as $tax_item ) {
 					<strong>
 						<?php esc_html_e( 'Shipping Address:', 'woocommerce' ); ?>
 					</strong>
+
+					<?php 
+						if($shipping_name) :
+							echo '<br>';
+							echo '<strong>'.$shipping_name.'</strong>';
+						endif;
+					?>
 
 					<br>
 

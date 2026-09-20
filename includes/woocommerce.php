@@ -571,5 +571,36 @@ add_action( 'woocommerce_save_account_details_errors', function( $errors, $user 
 
 }, 10, 2 );
 
+// save shipping email from checkout
+add_action( 'woocommerce_checkout_create_order', function( $order, $data ) {
+
+	if ( isset( $_POST['shipping_email'] ) ) {
+		$order->update_meta_data(
+			'_shipping_email',
+			sanitize_email( wp_unslash( $_POST['shipping_email'] ) )
+		);
+	}
+
+}, 10, 2 );
+
+// show shipping email on order page in dashboard
+add_action( 'woocommerce_admin_order_data_after_shipping_address', function( $order ) {
+
+	$shipping_email = $order->get_meta( '_shipping_email' );
+
+	if ( $shipping_email ) {
+		?>
+		<div class="address">
+            <p>
+                <strong><?php esc_html_e( 'Shipping Email:', 'woocommerce' ); ?></strong>
+                <a href="mailto:<?php echo esc_attr( $shipping_email ); ?>">
+                    <?php echo esc_html( $shipping_email ); ?>
+                </a>
+            </p>
+        </div>
+		<?php
+	}
+
+} );
 
 ?>
