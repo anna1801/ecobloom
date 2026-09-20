@@ -92,23 +92,11 @@
                             </div>
                         </div>
 
-                        <?php if (!is_checkout() && !is_cart() ) : ?>
-                            <button class="nav-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideCart"
-                                aria-controls="sideCart" aria-label="Open Shopping Bag">
-                                <i class="bi bi-bag"></i>
-                                <span class="cart-badge-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-                            </button>
-                        <?php elseif( is_cart() ) : ?>
-                            <button class="nav-icon-btn" type="button">
-                                <i class="bi bi-bag"></i>
-                                <span class="cart-badge-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-                            </button>
-                        <?php elseif( is_checkout() ) : ?>
-                            <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="nav-icon-btn">
-                                <i class="bi bi-bag"></i>
-                                <span class="cart-badge-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-                            </a>
-                        <?php endif; ?>
+                        <button class="nav-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideCart"
+                            aria-controls="sideCart" aria-label="Open Shopping Bag">
+                            <i class="bi bi-bag"></i>
+                            <span class="cart-badge-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                        </button>
 
                     </div>
 
