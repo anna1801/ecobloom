@@ -6,11 +6,19 @@ add_filter( 'acf/format_value/type=wysiwyg', function( $value ) {
         return $value;
     }
 
-    return preg_replace(
+    $value = preg_replace(
         '/<table(?![^>]*\bclass=)([^>]*)>/i',
         '<table class="table table-bordered align-middle"$1>',
         $value
     );
+
+    $value = preg_replace(
+        '/(<table\b[^>]*>.*?<\/table>)/is',
+        '<div class="table-responsive">$1</div>',
+        $value
+    );
+
+    return $value;
 
 }, 10 );
 
