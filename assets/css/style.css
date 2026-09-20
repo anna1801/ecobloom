@@ -2679,6 +2679,89 @@ header .navbar-nav .menu-item .dropdown-menu .menu-item.page_item .dropdown-item
   display: none;
 }
 
+body.error404 {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fdf2f8 0%, #fff 55%, #f0f9ff 100%);
+  display: flex;
+  flex-direction: column;
+}
+body.error404 .error-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+}
+body.error404 .error-box {
+  text-align: center;
+  max-width: 600px;
+  animation: fadeUp 0.6s ease;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+body.error404 .error-number {
+  font-size: clamp(6rem, 20vw, 10rem);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #be185d, #f43f5e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -4px;
+}
+body.error404 .error-illustration {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+body.error404 .search-bar {
+  max-width: 380px;
+  margin: 1.5rem auto 0;
+}
+body.error404 .quick-links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+body.error404 .ql-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1.1rem;
+  border-radius: 30px;
+  background: #fdf2f8;
+  color: #be185d;
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-decoration: none;
+  border: 1.5px solid rgba(190, 24, 93, 0.1333333333);
+  transition: all 0.2s;
+}
+body.error404 .ql-btn:hover {
+  background: #be185d;
+  color: #fff;
+}
+body.error404 a {
+  color: var(--accent-pink);
+}
+
 .newsletter-content .wpcf7-form .subscribe-form {
   align-items: flex-start;
 }
