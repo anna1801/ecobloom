@@ -38,7 +38,37 @@
 
     <?php elseif (is_account_page()) : ?>
 
-        <?php inner_hero(); ?>
+        <?php 
+            $current_endpoint = WC()->query->get_current_endpoint();
+
+            $orders_hero_banner = get_field('orders_hero_banner', 'option');
+            $view_order_hero_banner = get_field('view_order_hero_banner', 'option');
+            $downloads_hero_banner = get_field('downloads_hero_banner', 'option');
+            $edit_account_hero_banner = get_field('edit_account_hero_banner', 'option');
+            $edit_address_hero_banner = get_field('edit_address_hero_banner', 'option');
+            $payment_methods_hero_banner = get_field('payment_methods_hero_banner', 'option');
+
+            if ($current_endpoint === 'orders') {
+                inner_hero($orders_hero_banner);
+
+            } elseif ($current_endpoint === 'view-order') {
+                inner_hero($view_order_hero_banner);
+
+            } elseif ($current_endpoint === 'downloads') {
+                inner_hero($downloads_hero_banner);
+
+            } elseif ($current_endpoint === 'edit-account') {
+                inner_hero($edit_account_hero_banner);
+
+            } elseif ($current_endpoint === 'edit-address') {
+                inner_hero($edit_address_hero_banner);
+
+            } elseif ($current_endpoint === 'payment-methods') {
+                inner_hero($payment_methods_hero_banner);
+            } else {
+                inner_hero();
+            }
+        ?>
         
         <section class="py-5">
             <div class="container py-3">

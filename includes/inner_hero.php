@@ -1,5 +1,5 @@
 <?php
-    function inner_hero() {
+    function inner_hero($hero_banner='') {
         if ( is_home() ) {
             $id = get_option('page_for_posts');
         } elseif ( is_page() ) {
@@ -15,7 +15,9 @@
             $id = get_queried_object_id();
         }
 
-        $hero_banner = get_field('hero_banner', $id);
+        if( !$hero_banner ) :
+            $hero_banner = get_field('hero_banner', $id);
+        endif;
 
         if (is_category() || is_tax()) {
             $page_name = get_queried_object()->name;
@@ -36,6 +38,9 @@
             $description = '';
         }
     
+        $current_endpoint = WC()->query->get_current_endpoint();
+        $my_account_url = wc_get_page_permalink( 'myaccount' );
+        $order_id = absint( get_query_var('view-order') );
         ?>
         <section class="page-hero-section">
             <div class="container">
@@ -72,7 +77,32 @@
                                         Gallery
                                     </a>
                                 </li>';
-                        
+
+                        elseif (is_account_page() && $current_endpoint) :
+                            echo '<li>/</li>';
+                            echo '<li>
+                                    <a href="'.wc_get_page_permalink('myaccount').'">
+                                        My Account
+                                    </a>
+                                </li>';
+
+                            $endpoint_names = [
+                                'orders'            => 'Orders',
+                                'view-order'        => 'Order',
+                                'downloads'         => 'Downloads',
+                                'edit-account'      => 'Account Details',
+                                'edit-address'      => 'Addresses',
+                                'payment-methods'   => 'Payment Methods',
+                            ];
+
+                            $page_name = !empty($page_name)
+                                ? $page_name
+                                : ($endpoint_names[$current_endpoint] ?? 'Dashboard');
+
+                            if ($current_endpoint === 'view-order') :
+                                $page_name = $page_name .' #' . $order_id; 
+                            endif;
+
                         elseif (is_checkout()) :
                             $cart_id = url_to_postid( wc_get_cart_url() );
                             $cart_hero_banner = get_field('hero_banner', $cart_id);
