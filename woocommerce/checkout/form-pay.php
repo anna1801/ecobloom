@@ -17,7 +17,53 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+
+$cod_fee_enabled = get_option( 'cod_fee_enabled', 'no' );
+$cod_fee_amount  = (float) get_option( 'cod_fee_amount', 0 );
+$cod_fee_type    = get_option( 'cod_fee_type', 'fixed' );
+$cod_fee_label   = get_option( 'cod_fee_label', 'Cash on Delivery Fee' );
+
+$payment_method = $order->get_payment_method();
+
+foreach ( $order->get_items( 'fee' ) as $fee_item_id => $fee_item ) {
+
+    if (
+        $fee_item->get_meta( '_ecobloom_cod_fee' ) ||
+        $fee_item->get_name() === $cod_fee_label
+    ) {
+        $order->remove_item( $fee_item_id );
+    }
+}
+
+if (
+    'yes' === $cod_fee_enabled &&
+    'cod' === $payment_method &&
+    $cod_fee_amount > 0
+) {
+
+    if ( 'percentage' === $cod_fee_type ) {
+
+        $fee_amount = ( $order->get_subtotal() * $cod_fee_amount ) / 100;
+
+    } else {
+
+        $fee_amount = $cod_fee_amount;
+    }
+
+    $fee = new WC_Order_Item_Fee();
+
+    $fee->set_name( $cod_fee_label );
+    $fee->set_amount( $fee_amount );
+    $fee->set_total( $fee_amount );
+    $fee->add_meta_data( '_ecobloom_cod_fee', 'yes', true );
+
+    $order->add_item( $fee );
+}
+
+$order->calculate_totals( false );
+$order->save();
+
+$totals = $order->get_order_item_totals();
 ?>
 
 <section class="py-4 pb-5">
@@ -34,19 +80,33 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
                         
                         <div id="payment">
                             <?php if ( $order->needs_payment() ) : ?>
+
                                 <div class="wc_payment_methods payment_methods methods" aria-label="<?php esc_attr_e( 'Payment methods', 'woocommerce' ); ?>">
+                                   
                                     <?php
-                                    if ( ! empty( $available_gateways ) ) {
-                                        foreach ( $available_gateways as $gateway ) {
-                                            wc_get_template( 'checkout/payment-method.php', array( 'gateway' => $gateway ) );
+                                        $order_payment_method = $order->get_payment_method();
+
+                                        if ( $order_payment_method && isset( $available_gateways[ $order_payment_method ] ) ) {
+
+                                            foreach ( $available_gateways as $gateway_id => $gateway ) {
+                                                $gateway->chosen = ( $gateway_id === $order_payment_method );
+                                            }
                                         }
-                                    } else {
-                                        echo '<li>';
-                                        wc_print_notice( apply_filters( 'woocommerce_no_available_payment_methods_message', esc_html__( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ), 'notice' ); // phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingHookComment
-                                        echo '</li>';
-                                    }
+                                    ?>
+
+                                   <?php
+                                        if ( ! empty( $available_gateways ) ) {
+                                            foreach ( $available_gateways as $gateway ) {
+                                                wc_get_template( 'checkout/payment-method.php', array( 'gateway' => $gateway ) );
+                                            }
+                                        } else {
+                                            echo '<li>';
+                                            wc_print_notice( apply_filters( 'woocommerce_no_available_payment_methods_message', esc_html__( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ), 'notice' ); // phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingHookComment
+                                            echo '</li>';
+                                        }
                                     ?>
                                 </div>
+
                             <?php endif; ?>
 
                             <div class="trust-row mt-3">
@@ -116,22 +176,55 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
                 
                             <hr class="my-3">
 
-                            <?php if ( $totals ) : ?>
-                                <?php foreach ( $totals as $total ) : ?>
-                                    <?php if( $total['type'] != 'total') : ?>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-muted small"><?php echo $total['label']; ?></span>
-                                            <span class="fw-500 text-dark small"><?php echo $total['value']; ?></span>
-                                        </div>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                
-                            <hr class="my-3">
+                            <div id="order-pay-totals">
 
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <span class="fs-5 fw-bold text-dark">Total Payable</span>
-                                <span class="fs-4 fw-bold text-magenta" id="checkoutTotal"><?php echo $order->get_formatted_order_total(); ?></span>
+                                <?php
+                                    $shipping_zone_name = '';
+
+                                    $shipping_zone = WC_Shipping_Zones::get_zone_matching_package(
+                                        array(
+                                            'destination' => array(
+                                                'country'   => $order->get_shipping_country(),
+                                                'state'     => $order->get_shipping_state(),
+                                                'postcode'  => $order->get_shipping_postcode(),
+                                                'city'      => $order->get_shipping_city(),
+                                                'address'   => $order->get_shipping_address_1(),
+                                                'address_2' => $order->get_shipping_address_2(),
+                                            ),
+                                        )
+                                    );
+
+                                    if ( $shipping_zone ) {
+                                        $shipping_zone_name = $shipping_zone->get_zone_name();
+                                    }
+                                ?>
+
+                                <?php if ( $totals ) : ?>
+                                    <?php foreach ( $totals as $total ) : ?>
+                                        <?php if( $total['type'] != 'total') : ?>
+                                            <div class="d-flex justify-content-between mb-2">
+                                               <span class="text-muted small">
+                                                <?php
+                                                    if ( 'shipping' === $total['type'] && $shipping_zone_name ) {
+                                                        echo esc_html( $shipping_zone_name );
+                                                    } else {
+                                                        echo wp_kses_post( $total['label'] );
+                                                    }
+                                                ?>
+                                                </span>
+                                                <span class="fw-500 text-dark small"><?php echo $total['value']; ?></span>
+                                            </div>
+                                        <?php endif; ?>
+
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                    
+                                <hr class="my-3">
+
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <span class="fs-5 fw-bold text-dark">Total Payable</span>
+                                    <span class="fs-4 fw-bold text-magenta" id="checkoutTotal"><?php echo $order->get_formatted_order_total(); ?></span>
+                                </div>
                             </div>
 
                             <div class="form-row">
@@ -150,6 +243,7 @@ $totals = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVa
                                 <?php wc_get_template( 'checkout/terms.php' ); ?>
 
                                 <?php wp_nonce_field( 'woocommerce-pay', 'woocommerce-pay-nonce' ); ?>
+                                <?php wp_nonce_field( 'ecobloom_order_pay_nonce', 'ecobloom_order_pay_nonce' ); ?>
                             </div>
                         </div>
                         <div class="about-story-box p-3 bg-white mt-3">

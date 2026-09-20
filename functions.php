@@ -82,7 +82,8 @@ add_filter( 'wp_check_filetype_and_ext', function( $data, $file, $filename, $mim
   require get_template_directory() . '/includes/cod_fee.php';
   require get_template_directory() . '/ajax/ajax_blog.php'; 
   require get_template_directory() . '/ajax/ajax_product.php';
-  require get_template_directory() . '/ajax/ajax_cart.php';
+  require get_template_directory() . '/ajax/ajax_cart.php'; 
+    require get_template_directory() . '/ajax/ajax_order-pay.php';
   require get_template_directory() . '/acf-fields/general.php'; 
 
 // new ACF field type
