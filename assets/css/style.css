@@ -3147,7 +3147,7 @@ body.single-product .tab-content .tab-pane .description p {
   color: var(--bs-secondary-color) !important;
   line-height: 1.8;
 }
-body.single-product .tab-content .tab-pane table tbody tr:first-child {
+body.single-product table tbody tr:first-child {
   --bs-table-color: #000;
   --bs-table-bg: #f8f9fa;
   --bs-table-border-color: #c6c7c8;
@@ -3160,13 +3160,13 @@ body.single-product .tab-content .tab-pane table tbody tr:first-child {
   color: var(--bs-table-color);
   border-color: var(--bs-table-border-color);
 }
-body.single-product .tab-content .tab-pane table tbody tr:first-child td {
+body.single-product table tbody tr:first-child td {
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: var(--bs-table-bg);
 }
-body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td strong,
-body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b {
+body.single-product table tbody tr:not(:first-child) td strong,
+body.single-product table tbody tr:not(:first-child) td b {
   font-weight: 600;
 }
 

@@ -29,6 +29,17 @@ if ( $product->is_in_stock() ) : ?>
 
 	<?php do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
+    <?php 
+        $show_hide_sizechart = get_field('show_hide_sizechart');
+        if($show_hide_sizechart) : 
+        ?>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <a href="#" class="text-magenta small text-decoration-none fw-semibold"
+                data-bs-toggle="modal" data-bs-target="#sizeChartModal"><i
+                    class="bi bi-ruler me-1"></i>View Size Chart</a>
+        </div>
+    <?php endif; ?>
+            
 	<form class="cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data'>
         <div class="d-flex align-items-center gap-3 mb-4">
             <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>

@@ -37,14 +37,19 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 		<?php woocommerce_single_variation(); ?>
 
         <div class="mb-4 variations" cellspacing="0" role="presentation">
+
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <label for="cupSizeSelect" class="fw-bold text-dark fs-7">Select Cup Size:</label>
-                <!-- to do -->
-                <a href="#" class="text-magenta small text-decoration-none fw-semibold"
-                    data-bs-toggle="modal" data-bs-target="#sizeChartModal"><i
-                        class="bi bi-ruler me-1"></i>View Size Chart</a>
-                <!-- to do end-->
+                <?php 
+                    $show_hide_sizechart = get_field('show_hide_sizechart');
+                    if($show_hide_sizechart) : 
+                    ?>
+                    <a href="#" class="text-magenta small text-decoration-none fw-semibold"
+                        data-bs-toggle="modal" data-bs-target="#sizeChartModal"><i
+                            class="bi bi-ruler me-1"></i>View Size Chart</a>
+                <?php endif; ?>
             </div>
+
             <?php foreach ( $attributes as $attribute_name => $options ) : ?>
                 <?php
                     wc_dropdown_variation_attribute_options(
