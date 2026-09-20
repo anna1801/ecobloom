@@ -989,6 +989,47 @@ body {
                     }
                 }
             }
+            .woocommerce-customer-details {
+                .addresses {
+                    display: grid;
+                    gap: 32px;
+
+                    .order-details-addr {
+                        background: #fff;
+                        border-radius: 20px;
+                        padding: 1.5rem;
+                        box-shadow: 0 15px 40px rgba(109, 40, 217, .05);
+                        border: 1px solid #f1f5f9;
+                    }
+
+                    .woocommerce-customer-details--phone {
+                        display: block;
+                    }
+                }
+            }
+            .woocommerce-order-details {
+                height: auto;
+            
+                .type-payment_method {
+                    margin: 20px 0px !important;
+                }
+                .type-total {
+                    margin-top: 2rem;
+                    border-top: 1px solid var(--bs-border-color);
+                    padding-top: 2rem;
+
+                    .type-total-value {
+                        display: grid;
+                        text-align: right;
+                        .includes_tax {
+                            --bs-text-opacity: 1;
+                            color: var(--bs-secondary-color)!important;
+                            font-weight: 400;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
         }
     }
 }

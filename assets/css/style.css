@@ -4015,6 +4015,41 @@ body.woocommerce-account .woocommerce-MyAccount-contents .payment_methods .wooco
 body.woocommerce-account .woocommerce-MyAccount-contents .payment_methods .woocommerce-PaymentMethod .payment_box::before {
   display: none !important;
 }
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-customer-details .addresses {
+  display: grid;
+  gap: 32px;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-customer-details .addresses .order-details-addr {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 15px 40px rgba(109, 40, 217, 0.05);
+  border: 1px solid #f1f5f9;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-customer-details .addresses .woocommerce-customer-details--phone {
+  display: block;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-order-details {
+  height: auto;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-order-details .type-payment_method {
+  margin: 20px 0px !important;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-order-details .type-total {
+  margin-top: 2rem;
+  border-top: 1px solid var(--bs-border-color);
+  padding-top: 2rem;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-order-details .type-total .type-total-value {
+  display: grid;
+  text-align: right;
+}
+body.woocommerce-account .woocommerce-MyAccount-contents .woocommerce-order-details .type-total .type-total-value .includes_tax {
+  --bs-text-opacity: 1;
+  color: var(--bs-secondary-color) !important;
+  font-weight: 400;
+  font-size: 14px;
+}
 
 .woocommerce-message,
 .woocommerce-error,
