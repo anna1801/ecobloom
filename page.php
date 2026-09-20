@@ -65,16 +65,24 @@
 
             } elseif ($current_endpoint === 'payment-methods') {
                 inner_hero($payment_methods_hero_banner);
-            } else {
+            } elseif ($current_endpoint != 'lost-password') {
                 inner_hero();
             }
         ?>
-        
-        <section class="py-5">
-            <div class="container py-3">
-                <?php the_content(); ?>
-            </div>
-        </section>
+
+        <?php if ($current_endpoint === 'lost-password') : ?>
+            <section class="py-5 bg-pink-light" style="min-height: 80vh; display: flex; align-items: center;">
+                <div class="container py-4">
+                    <?php the_content(); ?>
+                </div>
+            </section>
+        <?php else : ?>
+            <section class="py-5">
+                <div class="container py-3">
+                    <?php the_content(); ?>
+                </div>
+            </section>
+        <?php endif; ?>
 
     <?php else : ?>
 

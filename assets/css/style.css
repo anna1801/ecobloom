@@ -3672,14 +3672,15 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
 .woocommerce-checkout.woocommerce-order-received .order_received_footer p:last-child {
   margin-bottom: 0;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap {
+
+.success-page-wrap {
   min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 3rem 1rem;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .success-card {
+.success-page-wrap .success-card {
   background: #fff;
   border-radius: 24px;
   box-shadow: 0 8px 48px rgba(190, 24, 93, 0.08);
@@ -3699,7 +3700,7 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
     transform: none;
   }
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .success-icon-ring {
+.success-page-wrap .success-icon-ring {
   width: 110px;
   height: 110px;
   border-radius: 50%;
@@ -3710,7 +3711,7 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   margin: 0 auto 1.5rem;
   position: relative;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .success-icon-ring::before {
+.success-page-wrap .success-icon-ring::before {
   content: "";
   position: absolute;
   inset: -8px;
@@ -3718,11 +3719,11 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   border: 3px solid #10b981;
   opacity: 0.25;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .success-icon-ring i {
+.success-page-wrap .success-icon-ring i {
   font-size: 3rem;
   color: #059669;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .order-ref {
+.success-page-wrap .order-ref {
   display: inline-block;
   background: #fdf2f8;
   color: #be185d;
@@ -3734,7 +3735,7 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   border: 1.5px solid rgba(190, 24, 93, 0.2);
   margin-bottom: 1.5rem;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .detail-row {
+.success-page-wrap .detail-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3742,22 +3743,22 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   border-bottom: 1px solid #f1f5f9;
   font-size: 0.9rem;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .detail-row:last-child {
+.success-page-wrap .detail-row:last-child {
   border-bottom: none;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .step-timeline {
+.success-page-wrap .step-timeline {
   display: flex;
   flex-direction: column;
   gap: 0;
   margin: 1.5rem 0;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .timeline-item {
+.success-page-wrap .timeline-item {
   display: flex;
   align-items: flex-start;
   gap: 14px;
   padding: 0.6rem 0;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .timeline-dot {
+.success-page-wrap .timeline-dot {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -3769,21 +3770,21 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   font-weight: 700;
   margin-top: 2px;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .timeline-dot.done {
+.success-page-wrap .timeline-dot.done {
   background: #d1fae5;
   color: #059669;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .timeline-dot.next {
+.success-page-wrap .timeline-dot.next {
   background: #fdf2f8;
   color: #be185d;
   border: 2px solid #be185d;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .timeline-dot.later {
+.success-page-wrap .timeline-dot.later {
   background: #f8fafc;
   color: #94a3b8;
   border: 2px solid #e2e8f0;
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .confetti-emoji {
+.success-page-wrap .confetti-emoji {
   font-size: 2rem;
   animation: bounce 1s infinite alternate;
 }
@@ -3795,21 +3796,22 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
     transform: translateY(-8px);
   }
 }
-.woocommerce-checkout.woocommerce-order-received .success-page-wrap .action-btns {
+.success-page-wrap .action-btns {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 2rem;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap {
+
+.error-page-wrap {
   min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 3rem 1rem;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .error-card {
+.error-page-wrap .error-card {
   background: #fff;
   border-radius: 24px;
   box-shadow: 0 8px 48px rgba(239, 68, 68, 0.08);
@@ -3829,7 +3831,7 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
     transform: none;
   }
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .error-icon-ring {
+.error-page-wrap .error-icon-ring {
   width: 110px;
   height: 110px;
   border-radius: 50%;
@@ -3840,7 +3842,7 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   margin: 0 auto 1.5rem;
   position: relative;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .error-icon-ring::before {
+.error-page-wrap .error-icon-ring::before {
   content: "";
   position: absolute;
   inset: -8px;
@@ -3848,14 +3850,14 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   border: 3px solid #ef4444;
   opacity: 0.2;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .error-icon-ring i {
+.error-page-wrap .error-icon-ring i {
   font-size: 3rem;
   color: #dc2626;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .reason-list {
+.error-page-wrap .reason-list {
   text-align: left;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .reason-list li {
+.error-page-wrap .reason-list li {
   padding: 0.4rem 0;
   font-size: 0.88rem;
   color: #64748b;
@@ -3863,11 +3865,11 @@ body.single-product .tab-content .tab-pane table tbody tr:not(:first-child) td b
   align-items: center;
   gap: 8px;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .reason-list li i {
+.error-page-wrap .reason-list li i {
   color: #ef4444;
   flex-shrink: 0;
 }
-.woocommerce-checkout.woocommerce-order-received .error-page-wrap .action-btns {
+.error-page-wrap .action-btns {
   display: flex;
   gap: 1rem;
   justify-content: center;
