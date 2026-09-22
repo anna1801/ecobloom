@@ -49,7 +49,7 @@ $allowed_html = array(
 	</p>
 </div>
 
-<div class="row g-4 mb-4">
+<!-- <div class="row g-4 mb-4">
 	<div class="col-12 col-md-4">
 		<div class="about-value-card p-4 text-center h-100">
 			<i class="bi bi-recycle text-magenta mb-2" style="font-size: 2rem;"></i>
@@ -71,7 +71,7 @@ $allowed_html = array(
 			<p class="text-muted small mb-0">EcoBloom Rewards Balance</p>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <?php
 

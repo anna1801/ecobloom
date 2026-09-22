@@ -603,4 +603,55 @@ add_action( 'woocommerce_admin_order_data_after_shipping_address', function( $or
 
 } );
 
+// Password Strength on Register page
+add_action('wp_enqueue_scripts', function () {
+    if ( is_page_template('template/template/template-register.php') ) {
+        wp_enqueue_script('wc-password-strength-meter');
+    }
+});
+
+add_filter('woocommerce_registration_errors', function ($errors, $username, $email) {
+
+    if (!empty($_POST['password'])) {
+
+        $password = wp_unslash($_POST['password']);
+
+        $missing = [];
+
+        if (strlen($password) < 8) {
+            $missing[] = 'at least 8 characters';
+        }
+
+        if (!preg_match('/[a-z]/', $password)) {
+            $missing[] = 'one lowercase letter';
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            $missing[] = 'one uppercase letter';
+        }
+
+        if (!preg_match('/[0-9]/', $password)) {
+            $missing[] = 'one number';
+        }
+
+        if (!preg_match('/[^a-zA-Z0-9]/', $password)) {
+            $missing[] = 'one special character';
+        }
+
+        if (!empty($missing)) {
+            $errors->add(
+                'password_error',
+                sprintf(
+                    __('Password must contain %s.', 'woocommerce'),
+                    implode(', ', $missing)
+                )
+            );
+        }
+    }
+
+    return $errors;
+
+}, 10, 3);
+
+
 ?>
