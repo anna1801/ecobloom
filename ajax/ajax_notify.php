@@ -360,7 +360,14 @@ function custom_notify_me_stock_status_change(
     $product
 ) {
 
-    // We only care when it becomes IN STOCK.
+    error_log(
+        'NOTIFY: Stock status changed. Product ID: ' .
+        $product_id .
+        ' Status: ' .
+        $stock_status
+    );
+
+    // Only send notifications when the product becomes in stock.
     if ($stock_status !== 'instock') {
         return;
     }
@@ -370,37 +377,40 @@ function custom_notify_me_stock_status_change(
     }
 
     if (!$product) {
+        error_log('NOTIFY: Product not found.');
         return;
     }
 
     $stock_product_id = $product->get_id();
 
+    error_log(
+        'NOTIFY: Product found: ' .
+        $product->get_name()
+    );
+
     /*
-     * Find users who subscribed to this exact
-     * product/variation.
+     * Get users who have notification subscriptions.
      */
     $users = get_users([
-        'meta_query' => [
-            [
-                'key'     => '_notify_me_products',
-                'value'   => '"' . $stock_product_id . '"',
-                'compare' => 'LIKE',
-            ],
-        ],
+        'meta_key' => '_notify_me_products',
     ]);
 
+    error_log(
+        'NOTIFY: Users with notification meta: ' .
+        count($users)
+    );
+
     if (empty($users)) {
+        error_log('NOTIFY: No users found.');
         return;
     }
 
-    /*
-     * Product name.
-     */
     $product_name = $product->get_name();
 
     /*
-     * If this is a variation, use the parent
-     * product URL.
+     * Product URL.
+     *
+     * For variations, use the parent product URL.
      */
     if ($product->is_type('variation')) {
 
@@ -417,64 +427,43 @@ function custom_notify_me_stock_status_change(
         $product_url = get_permalink($product_id);
     }
 
-    $subject = sprintf(
-        '%s is back in stock!',
-        $product_name
-    );
+    $subject = $product_name . ' is back in stock!';
 
-    foreach ($users as $user) {
+    $message = '
+        <html>
+        <body>
 
-        $email = $user->user_email;
+            <h2>Good news!</h2>
 
-        if (!$email) {
-            continue;
-        }
+            <p>
+                <strong>' . esc_html($product_name) . '</strong>
+                is now back in stock.
+            </p>
 
-        $message = '
-            <html>
-            <body>
+            <p>
+                <a href="' . esc_url($product_url) . '"
+                   style="
+                        display:inline-block;
+                        padding:12px 20px;
+                        background:#000;
+                        color:#fff;
+                        text-decoration:none;
+                        border-radius:30px;
+                   ">
+                    View Product
+                </a>
+            </p>
 
-                <h2>Good news!</h2>
+        </body>
+        </html>
+    ';
 
-                <p>
-                    <strong>' . esc_html($product_name) . '</strong>
-                    is now back in stock.
-                </p>
-
-                <p>
-                    <a href="' . esc_url($product_url) . '"
-                       style="
-                            display:inline-block;
-                            padding:12px 20px;
-                            background:#000;
-                            color:#fff;
-                            text-decoration:none;
-                            border-radius:30px;
-                       ">
-                        View Product
-                    </a>
-                </p>
-
-            </body>
-            </html>
-        ';
-
-        $headers = [
-            'Content-Type: text/html; charset=UTF-8',
-        ];
-
-        wp_mail(
-            $email,
-            $subject,
-            $message,
-            $headers
-        );
-    }
+    $headers = [
+        'Content-Type: text/html; charset=UTF-8',
+    ];
 
     /*
-     * IMPORTANT:
-     * Remove the product/variation from each user's
-     * notification list after sending.
+     * Check each user's notification list.
      */
     foreach ($users as $user) {
 
@@ -488,17 +477,66 @@ function custom_notify_me_stock_status_change(
             continue;
         }
 
-        $notifications = array_values(
-            array_diff(
-                $notifications,
-                [$stock_product_id]
+        /*
+         * Does this user subscribe to this product/variation?
+         */
+        if (
+            !in_array(
+                $stock_product_id,
+                array_map('absint', $notifications),
+                true
             )
+        ) {
+            continue;
+        }
+
+        error_log(
+            'NOTIFY: Subscriber found: ' .
+            $user->user_email
         );
 
-        update_user_meta(
-            $user->ID,
-            '_notify_me_products',
-            $notifications
+        /*
+         * Send email.
+         */
+        $sent = wp_mail(
+            $user->user_email,
+            $subject,
+            $message,
+            $headers
         );
+
+        error_log(
+            'NOTIFY: Email to ' .
+            $user->user_email .
+            ' = ' .
+            ($sent ? 'SUCCESS' : 'FAILED')
+        );
+
+        /*
+         * Remove this product/variation from the
+         * user's notification list after sending.
+         */
+        if ($sent) {
+
+            $notifications = array_values(
+                array_filter(
+                    $notifications,
+                    function ($id) use ($stock_product_id) {
+                        return absint($id) !== absint($stock_product_id);
+                    }
+                )
+            );
+
+            update_user_meta(
+                $user->ID,
+                '_notify_me_products',
+                $notifications
+            );
+
+            error_log(
+                'NOTIFY: Subscription removed for user ' .
+                $user->ID
+            );
+        }
     }
 }
