@@ -349,7 +349,7 @@ add_action(
  */
 
 add_action(
-    'woocommerce_product_set_stock',
+    'woocommerce_product_set_stock_status',
     'custom_send_back_in_stock_notifications',
     20,
     1
