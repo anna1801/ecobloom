@@ -347,122 +347,136 @@ add_action(
  * SEND EMAIL WHEN SIMPLE PRODUCT COMES BACK IN STOCK
  * =========================================================
  */
-
 add_action(
     'woocommerce_product_set_stock_status',
-    'custom_send_back_in_stock_notifications',
-    20,
-    1
+    'custom_notify_me_stock_status_change',
+    10,
+    3
 );
 
-function custom_send_back_in_stock_notifications($product) {
+function custom_notify_me_stock_status_change(
+    $product_id,
+    $stock_status,
+    $product
+) {
 
-    if (!$product instanceof WC_Product) {
+    // We only care when it becomes IN STOCK.
+    if ($stock_status !== 'instock') {
         return;
     }
 
-    // Only process when product is in stock
-    if (!$product->is_in_stock()) {
+    if (!$product) {
+        $product = wc_get_product($product_id);
+    }
+
+    if (!$product) {
         return;
     }
 
     $stock_product_id = $product->get_id();
 
-
-    /**
-     * -----------------------------------------------------
-     * Find users subscribed to this product/variation
-     * -----------------------------------------------------
+    /*
+     * Find users who subscribed to this exact
+     * product/variation.
      */
-
     $users = get_users([
         'meta_query' => [
             [
                 'key'     => '_notify_me_products',
                 'value'   => '"' . $stock_product_id . '"',
                 'compare' => 'LIKE',
-            ]
-        ]
+            ],
+        ],
     ]);
 
-
-    if (!$users) {
+    if (empty($users)) {
         return;
     }
 
-
-    /**
-     * -----------------------------------------------------
-     * Determine whether this is a variation
-     * -----------------------------------------------------
+    /*
+     * Product name.
      */
+    $product_name = $product->get_name();
 
-    $is_variation = $product->is_type('variation');
+    /*
+     * If this is a variation, use the parent
+     * product URL.
+     */
+    if ($product->is_type('variation')) {
 
-    if ($is_variation) {
-
-        $parent_id = $product->get_parent_id();
-
-        $product_name = $product->get_name();
-
-        $product_url = get_permalink(
-            $parent_id
+        $parent_product = wc_get_product(
+            $product->get_parent_id()
         );
+
+        $product_url = $parent_product
+            ? get_permalink($parent_product->get_id())
+            : get_permalink($product_id);
 
     } else {
 
-        $parent_id = $product->get_id();
-
-        $product_name = $product->get_name();
-
-        $product_url = get_permalink(
-            $product->get_id()
-        );
+        $product_url = get_permalink($product_id);
     }
 
-
-    /**
-     * -----------------------------------------------------
-     * Send email
-     * -----------------------------------------------------
-     */
+    $subject = sprintf(
+        '%s is back in stock!',
+        $product_name
+    );
 
     foreach ($users as $user) {
 
         $email = $user->user_email;
 
-        if (
-            !$email ||
-            !is_email($email)
-        ) {
+        if (!$email) {
             continue;
         }
 
+        $message = '
+            <html>
+            <body>
 
-        $subject = $product_name .
-            ' is back in stock';
+                <h2>Good news!</h2>
 
+                <p>
+                    <strong>' . esc_html($product_name) . '</strong>
+                    is now back in stock.
+                </p>
 
-        $message = sprintf(
-            "Hi %s,\n\n%s is now back in stock.\n\nView the product:\n%s",
-            $user->display_name,
-            $product_name,
-            $product_url
-        );
+                <p>
+                    <a href="' . esc_url($product_url) . '"
+                       style="
+                            display:inline-block;
+                            padding:12px 20px;
+                            background:#000;
+                            color:#fff;
+                            text-decoration:none;
+                            border-radius:30px;
+                       ">
+                        View Product
+                    </a>
+                </p>
 
+            </body>
+            </html>
+        ';
+
+        $headers = [
+            'Content-Type: text/html; charset=UTF-8',
+        ];
 
         wp_mail(
             $email,
             $subject,
-            $message
+            $message,
+            $headers
         );
+    }
 
-
-        /**
-         * -------------------------------------------------
-         * Remove subscription after notification
-         * -------------------------------------------------
-         */
+    /*
+     * IMPORTANT:
+     * Remove the product/variation from each user's
+     * notification list after sending.
+     */
+    foreach ($users as $user) {
 
         $notifications = get_user_meta(
             $user->ID,
@@ -470,22 +484,21 @@ function custom_send_back_in_stock_notifications($product) {
             true
         );
 
-
-        if (is_array($notifications)) {
-
-            $notifications = array_values(
-                array_diff(
-                    $notifications,
-                    [$stock_product_id]
-                )
-            );
-
-
-            update_user_meta(
-                $user->ID,
-                '_notify_me_products',
-                $notifications
-            );
+        if (!is_array($notifications)) {
+            continue;
         }
+
+        $notifications = array_values(
+            array_diff(
+                $notifications,
+                [$stock_product_id]
+            )
+        );
+
+        update_user_meta(
+            $user->ID,
+            '_notify_me_products',
+            $notifications
+        );
     }
 }
