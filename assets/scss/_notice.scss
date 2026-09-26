@@ -152,3 +152,62 @@
         }
     }
 }
+
+.custom-notify-me {
+    position: relative;
+    display: inline-block;
+
+    .notify-me-message {
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) translateY(5px);
+
+        min-width: 240px;
+        max-width: 320px;
+
+        padding: 10px 14px;
+
+        border-radius: 6px;
+
+        font-size: 13px;
+        line-height: 1.4;
+        text-align: center;
+
+        background: #222;
+        color: #fff;
+
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity .25s ease,
+            transform .25s ease,
+            visibility .25s ease;
+
+        z-index: 999;
+
+        &.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        &.success {
+            background: #198754;
+        }
+
+        &.error {
+            background: #dc3545;
+        }
+    }
+}
+#product-results {
+    .custom-notify-me {
+        .notify-me-message {
+            left: 30px;
+            right: auto;
+        }
+    }
+}

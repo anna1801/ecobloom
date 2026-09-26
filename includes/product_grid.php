@@ -122,31 +122,74 @@
                                 echo '<span class="fs-4 fw-bold text-dark">' . eco_price( $regular_price ) . '</span>';
                             }
                         ?>
-                        <!-- to do -->
-                        <?php 
+                        
+                        <?php
                             $product_badge = '';
+                            $notify_product_id = 0;
+                            $notify_variation_id = 0;
+                            $product_is_out_of_stock = false;
 
                             if ($product) {
+
                                 if ($product->is_type('variation')) {
+
                                     $parent_id = $product->get_parent_id();
-                                    $product_badge = get_field('product_badge',$parent_id);
+
+                                    $product_badge = get_field(
+                                        'product_badge',
+                                        $parent_id
+                                    );
+
+                                    $notify_product_id = $parent_id;
+                                    $notify_variation_id = $product->get_id();
+
+                                    $product_is_out_of_stock = (
+                                        $product->get_stock_status() === 'outofstock'
+                                    );
 
                                 } else {
-                                    $product_badge = get_field( 'product_badge', $product->get_id() );
-                                }
-                            }
 
-                            if($product_badge && $product_badge["value"] == 'coming_soon') {
-                                echo '<a href="'. $product_url .'" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
-                                        Notify Me <i class="bi bi-bell ms-1"></i>
-                                    </a>';
-                            } else {
-                                echo '<a href="'. $product_url .'" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
+                                    $product_badge = get_field(
+                                        'product_badge',
+                                        $product->get_id()
+                                    );
+
+                                    $notify_product_id = $product->get_id();
+                                    $notify_variation_id = 0;
+
+                                    $product_is_out_of_stock = (
+                                        $product->get_stock_status() === 'outofstock'
+                                    );
+                                }
+
+                                $product_badge_value = $product_badge['value'] ?? '';
+
+                                if (
+                                    $product_badge_value === 'coming_soon' &&
+                                    $product_is_out_of_stock &&
+                                    is_user_logged_in()
+                                ) {
+                                    echo '
+                                    <div class="custom-notify-me">
+                                        <button
+                                            type="button"
+                                            class="notify-me-button btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm"
+                                            data-product-id="' . esc_attr($notify_product_id) . '"
+                                            data-variation-id="' . esc_attr($notify_variation_id) . '">
+                                            Notify Me <i class="bi bi-bell ms-1"></i>
+                                        </button>
+                                        <div class="notify-me-message"></div>
+                                    </div>';
+                                } else {
+                                    echo '<a
+                                        href="' . esc_url($product_url) . '"
+                                        class="btn btn-primary rounded-pill px-4 py-2 fw-semibold fs-7 shadow-sm">
                                         View Details <i class="bi bi-arrow-right ms-1"></i>
                                     </a>';
+                                }
                             }
                         ?>
-                        <!-- to do end-->
+
                     </div>
                 </div>
             </div>

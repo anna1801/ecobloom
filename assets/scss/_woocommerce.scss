@@ -5,6 +5,20 @@ body.single-product {
             outline: none;
         }
     }
+    .woocommerce-variation-availability {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .custom-notify-me {
+            margin-bottom: 20px;
+        }
+    }
+    .product-type-simple {
+        .custom-notify-me {
+            margin-bottom: 50px;
+        }
+    }
     div.product {
         form.cart {
             .woocommerce-variation-description {

@@ -98,9 +98,9 @@
                             continue;
                         }
 
-                        if (!$variation->is_in_stock()) {
-                            continue;
-                        }
+                        // if (!$variation->is_in_stock()) {
+                        //     continue;
+                        // }
 
                         $archive_products[] = $variation;
                     }
